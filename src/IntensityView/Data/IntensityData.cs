@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace IntensityMapping {
+namespace IntensityView.Data {
     public class IntensityData<T> {
         public T[] Values { get; }
         public int Width { get; }

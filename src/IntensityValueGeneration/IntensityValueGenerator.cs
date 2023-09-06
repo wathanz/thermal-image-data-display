@@ -1,6 +1,8 @@
-﻿namespace IntensityMapping {
+﻿using IntensityView.Data;
 
-    internal class IntensityValuGenerator {
+namespace IntensityValueGeneration {
+
+    internal class IntensityValueGenerator {
         private static int lastStartedCol = 0;
 
         // generate 2d intensity value with gradient pattern
@@ -19,7 +21,7 @@
                 lastStartedCol = 0;
             }
 
-            return new IntensityData<double>(data, height, width);
+            return new IntensityData<double>(data, width, height);
         }
 
         private static double GetDataValueAtColumn(double min, double max, int columnIndex, int column, int lastStartedCol) {

@@ -1,4 +1,4 @@
-﻿namespace IntensityMapping {
+﻿namespace IntensityView.Data {
     public class IntensityDataConverter {
 
         private static readonly byte DataMax = 255;
