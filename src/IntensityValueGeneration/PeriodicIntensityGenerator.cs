@@ -1,13 +1,13 @@
-using IntensityMapping;
+using IntensityView.Data;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace TestApp.Models {
+namespace IntensityValueGeneration {
 
     public class MapChangedEventArgs : EventArgs {
-        public IntensityData<byte> Data { get; }
-        public MapChangedEventArgs(IntensityData<byte> data) {
+        public IntensityData<double> Data { get; }
+        public MapChangedEventArgs(IntensityData<double> data) {
             Data = data;
         }
     }
@@ -15,15 +15,13 @@ namespace TestApp.Models {
     public delegate void IntensityValuesChangedHandler(object sender, MapChangedEventArgs args);
 
     /// <summary>
-    /// To Generate Intensity Values, Periodically
+    /// It is utility class to Generate Intensity Values Periodically
     /// </summary>
     public class PeriodicIntensityGenerator : NotifyPropertyChangedBase {
         private readonly ManualResetEvent eventStop = new ManualResetEvent(false);
         private bool isStarted = false;
         private int height = 5;
         private int width = 3;
-        private double toMin = 5.0;
-        private double toMax = 250.0;
         private TimeSpan interval = TimeSpan.FromSeconds(1);
 
         //callback for the Generated value changed
@@ -57,8 +55,7 @@ namespace TestApp.Models {
 
         }
 
-        public void Start(int width, int height, double dataMin, double dataMax, TimeSpan interval,
-            double toMin = 5.0, double toMax = 250.0) {
+        public void Start(int width, int height, double dataMin, double dataMax, TimeSpan interval) {
 
             this.width = width;
             this.height = height;
@@ -87,13 +84,12 @@ namespace TestApp.Models {
                     continue;
                 }
 
-                var data = IntensityValuGenerator.GenerateGradientPattern(this.width, this.height, this.dataMin, this.dataMax);
-                var byteData = IntensityDataConverter.Convert(data.Values, this.dataMin, this.dataMax, this.toMin, this.toMax);
+                var data = IntensityValueGenerator.GenerateGradientPattern(this.width, this.height, this.dataMin, this.dataMax);
                 lastGeneratedTime = DateTime.Now;
                 Counter++;
 
                 if (OnIntensityValuesChanged != null) {
-                    OnIntensityValuesChanged(this, new MapChangedEventArgs(new IntensityData<byte>(byteData, this.width, this.height)));
+                    OnIntensityValuesChanged(this, new MapChangedEventArgs(data));
                 }
             }
         }

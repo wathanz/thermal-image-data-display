@@ -5,8 +5,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using SystemDrawing = System.Drawing;
 
-namespace TestApp.Models {
-    internal static class ColorMapping {
+namespace IntensityView {
+    public static class ColorMapping {
 
         public static string Rainbow = "Rainbow";
         public static string RainbowFlip = "RainbowFlip";

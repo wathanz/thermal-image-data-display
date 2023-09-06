@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net6.0-windows;net48</TargetFrameworks>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="ReferenceImage\Blackhot_Palette.bmp" />
+    <None Remove="ReferenceImage\Ironbow_Palette.bmp" />
+    <None Remove="ReferenceImage\Rainbow_Palette.bmp" />
+    <None Remove="ReferenceImage\Rainbow_Palette_flip.bmp" />
+    <None Remove="ReferenceImage\Whitehot_Palette.bmp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ReferenceImage\Blackhot_Palette.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ReferenceImage\Ironbow_Palette.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ReferenceImage\Rainbow_Palette.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ReferenceImage\Rainbow_Palette_flip.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ReferenceImage\Whitehot_Palette.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
+  </ItemGroup>
+
+</Project>

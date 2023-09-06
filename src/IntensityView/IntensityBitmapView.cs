@@ -1,8 +1,8 @@
 ﻿using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace TestApp.Models {
-    internal class ImageView {
+namespace IntensityView {
+    public class IntensityBitmapView {
 
         WriteableBitmap writeableSource;
         public WriteableBitmap WriteableSource {
@@ -14,7 +14,7 @@ namespace TestApp.Models {
         }
         private object syncObject = new object();
         private string colorMappingName = "";
-        public ImageView() {
+        public IntensityBitmapView() {
 
         }
         public void Update(int width, int height, byte[] data, string colorMappingName) {

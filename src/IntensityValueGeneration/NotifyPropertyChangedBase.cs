@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace IntensityMapping {
+namespace IntensityValueGeneration {
     public class NotifyPropertyChangedBase : INotifyPropertyChanged {
         //The interface only includes this evennt
         public event PropertyChangedEventHandler PropertyChanged;
