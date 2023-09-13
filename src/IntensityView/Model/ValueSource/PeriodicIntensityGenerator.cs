@@ -1,9 +1,10 @@
+using IntensityView.Model;
 using IntensityView.Model.Data;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace IntensityValueGeneration {
+namespace IntensityView.Model.ValueSource {
 
     public class MapChangedEventArgs : EventArgs {
         public IntensityData<double> Data { get; }

@@ -17,10 +17,10 @@ namespace IntensityView {
         public IntensityBitmapView() {
 
         }
-        public void Update(int width, int height, byte[] data, string colorMappingName) {
+        public void Update(int width, int height, byte[] data, string colorMappingName, out bool newImgeSize) {
             lock (syncObject) {
                 int stride = (width * 8 + 7) / 8;
-                if (IsCreateNew(width, height, colorMappingName)) {
+                if (IsCreateNew(width, height, colorMappingName, out newImgeSize)) {
                     this.colorMappingName = colorMappingName;
                     var colorMapping = ColorMapping.GetBitmapPalette(colorMappingName);
                     var source = BitmapSource.Create(width, height, 96, 96, PixelFormats.Indexed8, colorMapping, data, stride);
@@ -31,10 +31,13 @@ namespace IntensityView {
             }
         }
 
-        private bool IsCreateNew(int width, int height, string colorMappingName) {
-            if (writeableSource == null ||
-                width != writeableSource.Width ||
-                height != writeableSource.Height)
+        private bool IsCreateNew(int width, int height, string colorMappingName, out bool newImgeSize) {
+
+            newImgeSize = writeableSource == null ||
+                width != writeableSource.PixelWidth ||
+                height != writeableSource.PixelHeight;
+
+            if (newImgeSize)
                 return true;
 
             if (colorMappingName != this.colorMappingName)

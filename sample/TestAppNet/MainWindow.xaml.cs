@@ -1,11 +1,12 @@
-﻿using IntensityValueGeneration;
+﻿
 using IntensityView;
-using IntensityView.Data;
+using IntensityView.Model.Data;
+using IntensityView.Model.ValueSource;
 using System;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace TestAppNet {
+namespace DemoAppNet {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -30,9 +31,10 @@ namespace TestAppNet {
             imageView = new IntensityBitmapView();
             mapGenerator = new PeriodicIntensityGenerator();
             GridSideView.DataContext = mapGenerator;
+            GrdViewInfo.DataContext = ImgViewUI.Info;
 
             mapGenerator.OnIntensityValuesChanged += MapGenerator_OnIntensityValuesChanged;
-            mapGenerator.Start(480, 320, minDataValue, maxDataValue, TimeSpan.FromSeconds(0.1));
+            mapGenerator.Start(640, 480, minDataValue, maxDataValue, TimeSpan.FromSeconds(0.1));
 
             ColorMappingsSelection.ItemsSource = ColorMapping.GetMappingKeys();
             ColorMappingsSelection.SelectedIndex = 0;
@@ -51,12 +53,17 @@ namespace TestAppNet {
             }
 
             var action = new Action(() => {
+
+                var w = ImgViewUI.ActualWidth;
+                var h = ImgViewUI.ActualHeight;
                 var mappingName = ColorMappingsSelection.SelectedItem.ToString();
                 // convert intensity value to 0~255 byte array
                 var data = IntensityDataConverter.Convert(mappedData.Values, minDataValue, this.maxDataValue, 0, 255);
                 // update image display source data with selected color mapping
-                imageView.Update(mappedData.Width, mappedData.Height, data, mappingName);
-                ImageView.Source = imageView.WriteableSource;
+                imageView.Update(mappedData.Width, mappedData.Height, data, mappingName, out var newImgeSize);
+                ImgViewUI.UpdateImageSource(imageView.WriteableSource, newImgeSize);
+
+
 
             });
 
@@ -83,6 +90,30 @@ namespace TestAppNet {
 
         private void BtnStop_Click(object sender, RoutedEventArgs e) {
             mapGenerator.Stop();
+        }
+
+        private void BtnResetView_Click(object sender, RoutedEventArgs e) {
+            ImgViewUI.FitView();
+        }
+
+        private void BtnRoiInfo_Click(object sender, RoutedEventArgs e) {
+
+            if (HasWindowsShow(typeof(RoiInfoWindow)))
+                return;
+
+            var win = new RoiInfoWindow(ImgViewUI);
+            win.Owner = this;
+            win.Show();
+        }
+
+        private bool HasWindowsShow(Type win) {
+            foreach (var item in this.OwnedWindows) {
+                if (item.GetType() == win) {
+                    (item as Window).Activate();
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
