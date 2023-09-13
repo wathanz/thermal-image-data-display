@@ -1,4 +1,4 @@
-using IntensityView.Data;
+using IntensityView.Model.Data;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
