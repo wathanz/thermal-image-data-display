@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using System.Windows;
 
 namespace IntensityView.Model {
-    internal static class DisplayZoomUtil {
+    internal static class ZoomUtil {
 
-        private readonly static double screenMarginOffset = 5;
+        private readonly static double screenMarginOffset = 0;
         private readonly static double minScreenSize = 20;
 
         private static double CalculateFitScreenValue(double pixelW, double pixelH,
@@ -23,7 +23,6 @@ namespace IntensityView.Model {
                 z = screenH / pixelH;
             else
                 z = screenW / pixelW;
-
             return z;
         }
 

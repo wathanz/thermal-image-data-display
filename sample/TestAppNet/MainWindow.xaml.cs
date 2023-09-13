@@ -1,6 +1,7 @@
-﻿using IntensityValueGeneration;
+﻿
 using IntensityView;
 using IntensityView.Model.Data;
+using IntensityView.Model.ValueSource;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -30,6 +31,7 @@ namespace DemoAppNet {
             imageView = new IntensityBitmapView();
             mapGenerator = new PeriodicIntensityGenerator();
             GridSideView.DataContext = mapGenerator;
+            GrdViewInfo.DataContext = ImgViewUI.Info;
 
             mapGenerator.OnIntensityValuesChanged += MapGenerator_OnIntensityValuesChanged;
             mapGenerator.Start(640, 480, minDataValue, maxDataValue, TimeSpan.FromSeconds(0.1));
@@ -51,12 +53,17 @@ namespace DemoAppNet {
             }
 
             var action = new Action(() => {
+
+                var w = ImgViewUI.ActualWidth;
+                var h = ImgViewUI.ActualHeight;
                 var mappingName = ColorMappingsSelection.SelectedItem.ToString();
                 // convert intensity value to 0~255 byte array
                 var data = IntensityDataConverter.Convert(mappedData.Values, minDataValue, this.maxDataValue, 0, 255);
                 // update image display source data with selected color mapping
                 imageView.Update(mappedData.Width, mappedData.Height, data, mappingName, out var newImgeSize);
                 ImgViewUI.UpdateImageSource(imageView.WriteableSource, newImgeSize);
+
+
 
             });
 
@@ -94,7 +101,7 @@ namespace DemoAppNet {
             if (HasWindowsShow(typeof(RoiInfoWindow)))
                 return;
 
-            var win = new RoiInfoWindow(ImgViewUI.GetRoiRectangles);
+            var win = new RoiInfoWindow(ImgViewUI);
             win.Owner = this;
             win.Show();
         }

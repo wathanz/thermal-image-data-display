@@ -3,7 +3,7 @@ using System.Windows.Media;
 
 
 
-namespace DrawToolsLib {
+namespace DrawingLib {
     public class DataGraphicsRectangle : DataGraphicsBase {
         private double left;
         private double top;

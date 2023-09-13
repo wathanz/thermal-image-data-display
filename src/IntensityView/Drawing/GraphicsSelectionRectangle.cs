@@ -1,19 +1,10 @@
 using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 
 
-namespace DrawToolsLib {
-    /// <summary>
-    /// Selection Rectangle graphics object, used for group selection.
-    /// 
-    /// Instance of this class should be created only for group selection
-    /// and removed immediately after group selection finished.
-    /// </summary>
+namespace DrawingLib {
     class GraphicsSelectionRectangle : GraphicsRectangleBase {
-        #region Constructors
 
         public GraphicsSelectionRectangle(double left, double top, double right, double bottom, double actualScale) {
             this.rectangleLeft = left;
@@ -29,13 +20,7 @@ namespace DrawToolsLib {
             this(0.0, 0.0, 100.0, 100.0, 1.0) {
         }
 
-        #endregion Constructors
 
-        #region Overrides
-
-        /// <summary>
-        /// Draw graphics object
-        /// </summary>
         public override void Draw(DrawingContext drawingContext) {
             drawingContext.DrawRectangle(
                 null,
@@ -60,8 +45,7 @@ namespace DrawToolsLib {
         }
 
         public override DataGraphicsBase CreateSerializedObject() {
-            return null;        // not used
+            return null;
         }
-        #endregion Overrides
     }
 }

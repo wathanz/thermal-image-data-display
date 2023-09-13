@@ -7,7 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 
 
-namespace DrawToolsLib {
+namespace DrawingLib {
     public static class FontConversions {
         public static string FontStyleToString(FontStyle value) {
             string result;

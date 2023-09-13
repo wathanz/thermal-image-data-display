@@ -34,8 +34,8 @@ namespace IntensityView {
         private bool IsCreateNew(int width, int height, string colorMappingName, out bool newImgeSize) {
 
             newImgeSize = writeableSource == null ||
-                width != writeableSource.Width ||
-                height != writeableSource.Height;
+                width != writeableSource.PixelWidth ||
+                height != writeableSource.PixelHeight;
 
             if (newImgeSize)
                 return true;

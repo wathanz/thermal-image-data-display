@@ -7,8 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 
 
-namespace DrawToolsLib {
-
+namespace DrawingLib {
     static class HelperFunctions {
         public static bool hasSelected(DrawingCanvas drawingCanvas) {
             bool ok = false;
@@ -38,19 +37,14 @@ namespace DrawToolsLib {
             return double.MaxValue;
         }
 
-        public static double getRakeRatio(Point p1, Point p2) {
-            if (p1.X - p2.X < Threshold.Esp) {
-                return Threshold.Inf;
-            }
-            return (p1.Y - p2.Y) / (p1.X - p2.Y);
-        }
 
-        public static Point getCenterPoint(Point p1, Point p2) {
+        public static Point CalculateCenterPoint(Point p1, Point p2) {
             double cx = (p1.X + p2.X) / 2;
             double cy = (p1.Y + p2.Y) / 2;
             Point centerPoint = new Point(cx, cy);
             return centerPoint;
         }
+
         public static int CalcDistanceSquare(Point p1, Point p2) {
             return (int)((p1.X - p2.X) * (p1.X - p2.X) + (p1.Y - p2.Y) * (p1.Y - p2.Y));
         }
@@ -59,6 +53,11 @@ namespace DrawToolsLib {
             get {
                 return Cursors.Arrow;
             }
+        }
+        public static void Remove(DrawingCanvas drawingCanvas, GraphicsBase graphicsBase) {
+            var index = drawingCanvas.GraphicsList.IndexOf(graphicsBase);
+            if (index < 0) return;
+            drawingCanvas.GraphicsList.RemoveAt(index);
         }
 
         public static void SelectAll(DrawingCanvas drawingCanvas) {
@@ -72,23 +71,5 @@ namespace DrawToolsLib {
                 drawingCanvas[i].IsSelected = false;
             }
         }
-
-
-        [Conditional("DEBUG")]
-        public static void Dump(VisualCollection graphicsList, string header) {
-            Trace.WriteLine("");
-            Trace.WriteLine(header);
-            Trace.WriteLine("");
-
-            foreach (GraphicsBase g in graphicsList) {
-                g.Dump();
-            }
-        }
-
-        [Conditional("DEBUG")]
-        public static void Dump(VisualCollection graphicsList) {
-            Dump(graphicsList, "Graphics List");
-        }
-
     }
 }

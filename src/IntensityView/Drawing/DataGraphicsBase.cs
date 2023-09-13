@@ -2,7 +2,7 @@
 using System.Xml.Serialization;
 
 
-namespace DrawToolsLib {
+namespace DrawingLib {
     public abstract class DataGraphicsBase {
         [XmlIgnore]
         internal int ID;

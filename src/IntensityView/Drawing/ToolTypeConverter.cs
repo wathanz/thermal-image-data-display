@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace DrawToolsLib {
+namespace DrawingLib {
     /// <summary>
     /// Convert ToolType to bool.
     /// Can be used to check active tool button/menu item

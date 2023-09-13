@@ -1,4 +1,5 @@
-﻿using DrawToolsLib;
+﻿using DrawingLib;
+using IntensityView.Interface;
 using IntensityView.Model;
 using System;
 using System.Collections;
@@ -21,11 +22,10 @@ namespace IntensityView.Views {
     /// <summary>
     /// Interaction logic for ImageViewUI.xaml
     /// </summary>
-    public partial class ImageViewUI : UserControl {
-
-        private ImageViewUIViewModel viewModel;
+    public partial class ImageViewUI : UserControl, IImageViewUI {
         public ImageViewUI() {
             InitializeComponent();
+            this.Info = new ImageViewInfo();
         }
 
         private void GrdImageView_MouseDown(object sender, MouseButtonEventArgs e) {
@@ -37,8 +37,9 @@ namespace IntensityView.Views {
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e) {
-            this.viewModel = new ImageViewUIViewModel();
-            this.DataContext = viewModel;
+
+
+            this.DataContext = Info;
 
             ImageHost.MouseLeftButtonDown += GrdDrawContainer_MouseLeftButtonDown;
             ImageHost.MouseLeftButtonUp += GrdDrawContainer_MouseLeftButtonUp;
@@ -46,18 +47,26 @@ namespace IntensityView.Views {
 
 
         }
+        public ImageViewInfo Info { get; }
 
-        private void AddGraphics() {
-
-            OverlayCanvas.Clear();
-            OverlayCanvas.GraphicsList.Add(new GraphicsRectangle(50, 30, 100, 60, 2, Colors.Blue, 1));
-            OverlayCanvas.GraphicsList.Add(new GraphicsRectangle(150, 80, 200, 110, 2, Colors.Cyan, 1));
-            OverlayCanvas.GraphicsList.Add(new GraphicsRectangle(230, 50, 280, 80, 2, Colors.Yellow, 1));
-            UpdateOverlayCanvasSize();
+        static int roiCount = 0;
+        public IEnumerable<RoiRectangle> GetRoiRectangles() {
+            var list = new List<RoiRectangle>();
+            roiCount = 1;
+            foreach (var item in OverlayCanvas.GetGraphics<GraphicsRectangle>()) {
+                list.Add(new RoiRectangle(item, roiCount++));
+            }
+            return list;
         }
-
-        public IEnumerable<GraphicsRectangle> GetRoiRectangles => OverlayCanvas.GetGraphics<GraphicsRectangle>();
-
+        public void AddNewRoi(int left = 5, int top = 5, int width = 50, int height = 30) {
+            if (OverlayCanvas.Count > 20) throw new Exception($"Roi Max Limit");
+            OverlayCanvas.GraphicsList.Add(new GraphicsRectangle(left, top, width, height, 1, Colors.Blue, OverlayCanvas.ActualScale));
+            OverlayCanvas.RefreshClip();
+        }
+        public void RemoveRoi(RoiRectangle roi) {
+            if (roi == null) return;
+            HelperFunctions.Remove(OverlayCanvas, roi.GraphicsRectangle);
+        }
 
         private void GrdDrawContainer_MouseMove(object sender, MouseEventArgs e) {
             if (!ImageHost.IsMouseCaptured) return;
@@ -80,8 +89,17 @@ namespace IntensityView.Views {
         private bool AllZoomPan {
             get { return OverlayCanvas.Selection.Count() <= 0; }
         }
+
         public void FitView() {
-            GrdDrawContainer.RenderTransform = Transform.Identity;
+            FitView(Info.ImageWidth, Info.ImageHeight);
+        }
+        public void FitView(double imageWidth, double imageHeight) {
+            //var fitZoom =ZoomUtil.CalculateFitZoom(ActualWidth, ActualHeight, imageWidth, imageHeight);
+            var m = Matrix.Identity;
+            //m.Scale(fitZoom, fitZoom);
+            //m.OffsetX = (imageWidth - ActualWidth) /2.0;
+            //m.OffsetY = (imageHeight - ActualHeight) /2.0;
+            GrdDrawContainer.RenderTransform = new MatrixTransform(m);
         }
 
         Point startMove;
@@ -90,36 +108,33 @@ namespace IntensityView.Views {
             ImageHost.ReleaseMouseCapture();
             OverlayCanvas.ClearSelection();
             GrdDrawContainer.Cursor = null;
-
-
         }
 
         public void UpdateImageSource(BitmapSource bitmapSource, bool newImageSize) {
 
-            if (!IsLoaded) {
+            if (!IsLoaded || bitmapSource == null) {
                 return;
             }
             this.ImageHost.Source = bitmapSource;
             if (!newImageSize) return;
 
-
+            FitView(bitmapSource.PixelWidth, bitmapSource.PixelHeight);
+            UpdateOverlayCanvasSize(bitmapSource.PixelWidth, bitmapSource.PixelHeight);
             FitView();
-            InvalidateVisual();
-            AddGraphics();
-            UpdateOverlayCanvasSize();
 
         }
 
-        private void UpdateOverlayCanvasSize() {
-            var imgSource = this.ImageHost.Source;
-            if (imgSource == null) return;
-            OverlayCanvas.Width = imgSource.Width;
-            OverlayCanvas.Height = imgSource.Height;
+        private void UpdateOverlayCanvasSize(double width, double height) {
+            GrdImageView.Width = width;
+            GrdImageView.Height = height;
+            Info.ImageWidth = (int)width;
+            Info.ImageHeight = (int)height;
             UpdateEffectiveScaleValue(GrdDrawContainer.RenderTransform.Value.M11);
         }
 
         private void UpdateEffectiveScaleValue(double scale) {
             OverlayCanvas.ActualScale = scale;
+            Info.Zoom = scale;
             OverlayCanvas.RefreshClip();
         }
 

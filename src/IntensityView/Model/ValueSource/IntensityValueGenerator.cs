@@ -1,6 +1,6 @@
 ﻿using IntensityView.Model.Data;
 
-namespace IntensityValueGeneration {
+namespace IntensityView.Model.ValueSource {
 
     internal class IntensityValueGenerator {
         private static int lastStartedCol = 0;

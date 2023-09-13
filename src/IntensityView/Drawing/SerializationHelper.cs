@@ -10,7 +10,7 @@ using System.Xml.Serialization;
 
 
 
-namespace DrawToolsLib {
+namespace DrawingLib {
 
     [XmlRoot("Graphics")]
     public class SerializationHelper {
