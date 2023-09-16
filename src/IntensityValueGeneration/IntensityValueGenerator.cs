@@ -1,4 +1,4 @@
-﻿using IntensityView.Data;
+﻿using IntensityView.Model.Data;
 
 namespace IntensityValueGeneration {
 

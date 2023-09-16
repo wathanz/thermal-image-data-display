@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntensityView", "src\Intens
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{525CABA4-F1C8-4D68-B5FE-EE09AC892B74}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestAppNet", "sample\TestAppNet\TestAppNet.csproj", "{7E99A9D6-96E7-488E-90A3-2E342CD13915}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DemoAppNet", "sample\TestAppNet\DemoAppNet.csproj", "{7E99A9D6-96E7-488E-90A3-2E342CD13915}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntensityValueGeneration", "src\IntensityValueGeneration\IntensityValueGeneration.csproj", "{D987587D-648F-4BA5-8680-7667E0EDF26B}"
 EndProject

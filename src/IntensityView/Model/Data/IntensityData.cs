@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace IntensityView.Data {
+namespace IntensityView.Model.Data {
     public class IntensityData<T> {
         public T[] Values { get; }
         public int Width { get; }
