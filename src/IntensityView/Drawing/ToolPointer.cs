@@ -6,41 +6,28 @@ using System.Windows.Media;
 
 
 
-namespace DrawToolsLib {
-    /// <summary>
-    /// Pointer tool
-    /// </summary>
+namespace DrawingLib {
     class ToolPointer : Tool {
         private enum SelectionMode {
             None,
-            Move,           // object(s) are moved
-            Size,           // object is resized
+            Move,
+            Size,
             GroupSelection
         }
 
         private SelectionMode selectMode = SelectionMode.None;
 
-        // Object which is currently resized:
         private GraphicsBase resizedObject;
         private int resizedObjectHandle;
-
-        // Keep state about last and current point (used to move and resize objects)
         private Point lastPoint = new Point(0, 0);
 
 
         public ToolPointer() {
         }
 
-        /// <summary>
-        /// Handle mouse down.
-        /// Start moving, resizing or group selection.
-        /// </summary>
         public override void OnMouseDown(DrawingCanvas drawingCanvas, MouseButtonEventArgs e) {
 
-
-
             Point point = e.GetPosition(drawingCanvas);
-
             selectMode = SelectionMode.None;
 
             GraphicsBase o;
@@ -107,15 +94,13 @@ namespace DrawToolsLib {
                 }
 
                 // Group selection. Create selection rectangle.
-                GraphicsSelectionRectangle r = new GraphicsSelectionRectangle(
+                var r = new GraphicsSelectionRectangle(
                     point.X, point.Y,
                     point.X + 1, point.Y + 1,
                     drawingCanvas.ActualScale);
 
                 r.Clip = new RectangleGeometry(new Rect(0, 0, drawingCanvas.ActualWidth, drawingCanvas.ActualHeight));
-
                 drawingCanvas.GraphicsList.Add(r);
-
                 selectMode = SelectionMode.GroupSelection;
             }
 
@@ -126,10 +111,7 @@ namespace DrawToolsLib {
             drawingCanvas.CaptureMouse();
         }
 
-        /// <summary>
-        /// Handle mouse move.
-        /// Se cursor, move/resize, make group selection.
-        /// </summary>
+
         public override void OnMouseMove(DrawingCanvas drawingCanvas, MouseEventArgs e) {
             // Exclude all cases except left button on/off.
             if (e.MiddleButton == MouseButtonState.Pressed ||
@@ -195,10 +177,6 @@ namespace DrawToolsLib {
             }
         }
 
-        /// <summary>
-        /// Handle mouse up.
-        /// Return to normal state.
-        /// </summary>
         public override void OnMouseUp(DrawingCanvas drawingCanvas, MouseButtonEventArgs e) {
             if (!drawingCanvas.IsMouseCaptured) {
                 drawingCanvas.Cursor = HelperFunctions.DefaultCursor;
@@ -231,9 +209,6 @@ namespace DrawToolsLib {
             selectMode = SelectionMode.None;
         }
 
-        /// <summary>
-        /// Set cursor
-        /// </summary>
         public override void SetCursor(DrawingCanvas drawingCanvas) {
             drawingCanvas.Cursor = HelperFunctions.DefaultCursor;
         }

@@ -8,7 +8,7 @@ using System.Windows.Media;
 using System.Xml.Serialization;
 
 
-namespace DrawToolsLib {
+namespace DrawingLib {
     public class DrawingCanvas : Canvas {
 
         private VisualCollection graphicsList;

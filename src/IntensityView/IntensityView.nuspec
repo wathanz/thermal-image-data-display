@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>IntensityMapImageViewer</id>
+    <version>0.1.0-alpha</version>
+    <title>Intensity Map Wpf Image Viewer</title>
+    <authors>wathanz</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <projectUrl>https://github.com/wathanz/thermal-image-data-display/</projectUrl>
+    <description>2D intensity values (eg. thermal data) mappin to RGB image data display for WPF-UI applicaiton</description>
+    <releaseNotes>initial release</releaseNotes>
+  </metadata>
+</package>

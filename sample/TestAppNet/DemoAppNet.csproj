@@ -14,8 +14,25 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\IntensityValueGeneration\IntensityValueGeneration.csproj" />
-    <ProjectReference Include="..\..\src\IntensityView\IntensityView.csproj" />
+    <PackageReference Include="IntensityView" Version="0.1.0-alpha" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="C:\Users\watha\.nuget\packages\intensityview\0.1.0-alpha\contentFiles\any\net6.0-windows7.0\ReferenceImage\Blackhot_Palette.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="C:\Users\watha\.nuget\packages\intensityview\0.1.0-alpha\contentFiles\any\net6.0-windows7.0\ReferenceImage\Ironbow_Palette.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="C:\Users\watha\.nuget\packages\intensityview\0.1.0-alpha\contentFiles\any\net6.0-windows7.0\ReferenceImage\Rainbow_Palette.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="C:\Users\watha\.nuget\packages\intensityview\0.1.0-alpha\contentFiles\any\net6.0-windows7.0\ReferenceImage\Rainbow_Palette_flip.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="C:\Users\watha\.nuget\packages\intensityview\0.1.0-alpha\contentFiles\any\net6.0-windows7.0\ReferenceImage\Whitehot_Palette.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

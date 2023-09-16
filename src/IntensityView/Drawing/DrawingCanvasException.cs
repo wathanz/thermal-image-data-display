@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 using System.Text;
 
 
-namespace DrawToolsLib {
+namespace DrawingLib {
     /// <summary>
     /// Exception thrown by DrawingCanvas Load and Save methods
     /// </summary>

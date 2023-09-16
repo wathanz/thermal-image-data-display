@@ -5,9 +5,8 @@ using System.Windows.Media;
 
 
 
-namespace DrawToolsLib {
+namespace DrawingLib {
     public class GraphicsRectangle : GraphicsRectangleBase {
-        private FormattedText formatedText;
         public GraphicsRectangle(double left, double top, double width, double height,
             double lineWidth, Color objectColor, double actualScale) {
             this.rectangleLeft = left;
@@ -25,8 +24,7 @@ namespace DrawToolsLib {
             this.graphicsObjectColor = objectColor;
             this.graphicsActualScale = actualScale;
 
-            this.formatedText = new FormattedText("", CultureInfo.InvariantCulture,
-                 FlowDirection.LeftToRight, defaultTypeface, 12, Brushes.Red, 96);
+
         }
 
         public GraphicsRectangle()
@@ -40,6 +38,7 @@ namespace DrawToolsLib {
             if (drawingContext == null) {
                 throw new ArgumentNullException("drawingContext");
             }
+            if (IsHide) return;
 
             drawingContext.DrawRectangle(
                 Brushes.Transparent,

@@ -5,13 +5,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 
 
-namespace DrawToolsLib {
-    /// <summary>
-    /// Base class for rectangle-based graphics:
-    /// rectangle and ellipse.
-    /// </summary>
+namespace DrawingLib {
     public abstract class GraphicsRectangleBase : GraphicsBase {
-        #region Class Members
 
         protected double rectangleLeft;
         protected double rectangleTop;
@@ -23,9 +18,6 @@ namespace DrawToolsLib {
         protected double rectangleRightOfCopy;
         protected double rectangleBottomOfCopy;
 
-        #endregion Class Members
-
-        #region Properties
         public Rect Rectangle {
             get {
                 double l, t, w, h;
@@ -52,6 +44,8 @@ namespace DrawToolsLib {
             }
         }
 
+
+
         public double Left {
             get { return rectangleLeft; }
             set { rectangleLeft = value; }
@@ -71,10 +65,6 @@ namespace DrawToolsLib {
             get { return rectangleBottom; }
             set { rectangleBottom = value; }
         }
-
-        #endregion Properties
-
-
 
         public override int HandleCount {
             get {
@@ -243,7 +233,6 @@ namespace DrawToolsLib {
             rectangleTop = rectangleTop * scale + (1 - scale) * center.Y;
             rectangleRight = rectangleRight * scale + (1 - scale) * center.X;
             rectangleBottom = rectangleBottom * scale + (1 - scale) * center.Y;
-
             RefreshDrawing();
         }
 
@@ -258,28 +247,11 @@ namespace DrawToolsLib {
 
         }
 
-
         public override void Reset(double scale, Point center) {
             rectangleLeft = rectangleLeftOfCopy * scale + (1 - scale) * center.X;
             rectangleTop = rectangleTopOfCopy * scale + (1 - scale) * center.Y;
             rectangleRight = rectangleRightOfCopy * scale + (1 - scale) * center.X;
             rectangleBottom = rectangleBottomOfCopy * scale + (1 - scale) * center.Y;
-
-            RefreshDrawing();
-        }
-
-        public override void Rotate(double angle, Point center) {
-            double dCos = Math.Cos(angle);
-            double dSin = Math.Sin(angle);
-            double tx = rectangleLeft;
-            double ty = rectangleTop;
-            rectangleLeft = (tx - center.X) * dCos - (ty - center.Y) * dSin + center.X;
-            rectangleTop = (tx - center.X) * dSin + (ty - center.Y) * dCos + center.Y;
-            tx = rectangleRight;
-            ty = rectangleBottom;
-            rectangleRight = (tx - center.X) * dCos - (ty - center.Y) * dSin + center.X;
-            rectangleBottom = (tx - center.X) * dSin + (ty - center.Y) * dCos + center.Y;
-
             RefreshDrawing();
         }
     }

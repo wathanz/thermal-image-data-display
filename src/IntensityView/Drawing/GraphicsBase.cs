@@ -6,7 +6,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 
 
-namespace DrawToolsLib {
+namespace DrawingLib {
     public abstract class GraphicsBase : DrawingVisual {
 
         protected double graphicsLineWidth;
@@ -30,8 +30,11 @@ namespace DrawToolsLib {
         static SolidColorBrush handleBrush3 = new SolidColorBrush(Color.FromArgb(255, 0, 0, 255));
 
         protected static Typeface defaultTypeface = new Typeface("Tahoma");
+        protected FormattedText formatedText;
+        protected string displayText = "";
+        protected int displayTextFontSize = 12;
 
-
+        public event EventHandler DrawingChanged;
         protected GraphicsBase() {
             objectId = this.GetHashCode();
         }
@@ -105,18 +108,39 @@ namespace DrawToolsLib {
             }
         }
 
-        private string displayText = "";
+
         public string DisplayText {
             get {
                 return displayText;
             }
 
             set {
+                if (value == displayText) return;
                 displayText = value;
-                RefreshDrawing();
+                UpdateDisplayText();
             }
         }
 
+
+        public int DisplayTextFontSize {
+            get {
+                return displayTextFontSize;
+            }
+
+            set {
+                if (value == displayTextFontSize) return;
+                displayTextFontSize = value;
+                UpdateDisplayText();
+            }
+        }
+
+        private void UpdateDisplayText() {
+            this.formatedText = new FormattedText(displayText, CultureInfo.InvariantCulture,
+                 FlowDirection.LeftToRight, defaultTypeface, displayTextFontSize, Brushes.Red, 96);
+
+
+            RefreshDrawing();
+        }
         protected double ActualLineWidth {
             get {
                 return graphicsActualScale <= 0 ? graphicsLineWidth : graphicsLineWidth / graphicsActualScale;
@@ -149,7 +173,6 @@ namespace DrawToolsLib {
         public abstract void Zoom(double scale, Point center);
         public abstract void CopyPoints();
         public abstract void Reset(double scale, Point center);
-        public abstract void Rotate(double angle, Point center);
         public abstract void MoveHandleTo(Point point, int handleNumber);
         public abstract Cursor GetHandleCursor(int handleNumber);
         public virtual void Normalize() {
@@ -158,6 +181,9 @@ namespace DrawToolsLib {
         public virtual void Draw(DrawingContext drawingContext) {
             if (IsSelected) {
                 DrawTracker(drawingContext);
+            }
+            if (DrawingChanged != null) {
+                DrawingChanged(this, new EventArgs());
             }
         }
 
