@@ -15,6 +15,9 @@ namespace DemoAppNet {
             this.roiRectangle = roiRectangle;
             this.ImageSize = imageSize;
             this.DataContext = roiRectangle;
+
+
+
         }
 
         public Size ImageSize { get; }
@@ -87,6 +90,17 @@ namespace DemoAppNet {
         private void BtnRemove_Click(object sender, RoutedEventArgs e) {
             if (OnRoiRemovedClicked != null)
                 OnRoiRemovedClicked(this, e);
+        }
+
+
+        private void TxtTextBottom_KeyUp(object sender, KeyEventArgs e) {
+            if (e.Key != Key.Enter) return;
+            this.roiRectangle.TextOnBottom = TxtTextBottom.Text;
+        }
+
+        private void TxtTextTop_KeyUp(object sender, KeyEventArgs e) {
+            if (e.Key != Key.Enter) return;
+            this.roiRectangle.TextOnTop = TxtTextTop.Text;
         }
     }
 }

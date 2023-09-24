@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Drawing.Imaging;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Input;
@@ -31,7 +32,8 @@ namespace DrawingLib {
 
         protected static Typeface defaultTypeface = new Typeface("Tahoma");
         protected FormattedText formatedText;
-        protected string displayText = "";
+        protected string displayTextBottom = "";
+        protected string displayTextTop = "";
         protected int displayTextFontSize = 12;
 
         public event EventHandler DrawingChanged;
@@ -109,14 +111,26 @@ namespace DrawingLib {
         }
 
 
-        public string DisplayText {
+        public string DisplayTextBottom {
             get {
-                return displayText;
+                return displayTextBottom;
             }
 
             set {
-                if (value == displayText) return;
-                displayText = value;
+                if (value == displayTextBottom) return;
+                displayTextBottom = value;
+                UpdateDisplayText();
+            }
+        }
+
+        public string DisplayTextTop {
+            get {
+                return displayTextTop;
+            }
+
+            set {
+                if (value == displayTextTop) return;
+                displayTextTop = value;
                 UpdateDisplayText();
             }
         }
@@ -133,12 +147,11 @@ namespace DrawingLib {
                 UpdateDisplayText();
             }
         }
-
+        protected FormattedText UpdateText(string text, Brush brush) {
+            return new FormattedText(text, CultureInfo.InvariantCulture,
+                 FlowDirection.LeftToRight, defaultTypeface, displayTextFontSize, brush, 96);
+        }
         private void UpdateDisplayText() {
-            this.formatedText = new FormattedText(displayText, CultureInfo.InvariantCulture,
-                 FlowDirection.LeftToRight, defaultTypeface, displayTextFontSize, Brushes.Red, 96);
-
-
             RefreshDrawing();
         }
         protected double ActualLineWidth {

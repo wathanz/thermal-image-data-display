@@ -8,7 +8,7 @@
         ResizeMode="NoResize"
         Title="roi info"
         Height="236"
-        Width="450" Loaded="Window_Loaded">
+        Width="600" Loaded="Window_Loaded">
     <Grid>
         <ListBox x:Name="ListBoxRois"
                  Margin="0,27,0,0" />

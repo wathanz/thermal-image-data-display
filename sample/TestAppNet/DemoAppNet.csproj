@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="IntensityView" Version="0.1.0-alpha" />
+    <ProjectReference Include="..\..\src\IntensityView\IntensityView.csproj" />
   </ItemGroup>
 
   <ItemGroup>
