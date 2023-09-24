@@ -9,7 +9,7 @@
              BorderThickness="0,0,0,1"
              Background="LightGray"
              d:DesignHeight="22"
-             d:DesignWidth="400">
+             d:DesignWidth="550">
     <Grid>
         <TextBox x:Name="TxtTopEntry"
                  HorizontalAlignment="Left"
@@ -57,7 +57,7 @@
                  VerticalContentAlignment="Center" />
         <Button x:Name="BtnRemove"
                 Content="Remove"
-                Margin="344,0,0,0"
+                Margin="493,0,0,0"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Left"
                 Width="54"
@@ -92,6 +92,31 @@
                  Margin="156,0,0,0"
                  KeyUp="TxtHeightEntry_KeyUp"
                  VerticalContentAlignment="Center" />
+        <TextBox x:Name="TxtTextTop"
+                 HorizontalAlignment="Left"
+                 TextWrapping="Wrap"
+                 BorderThickness="0"
+                 Text="{Binding TextOnTop, Mode=OneWay}"
+                 VerticalAlignment="Center"
+                 Width="43"
+                 Margin="388,0,0,0"
+                 VerticalContentAlignment="Center"
+                 KeyUp="TxtTextTop_KeyUp" />
+        <TextBox x:Name="TxtTextBottom"
+                 HorizontalAlignment="Left"
+                 TextWrapping="Wrap"
+                 BorderThickness="0"
+                 VerticalAlignment="Center"
+                 Text="{Binding TextOnBottom, Mode=OneWay}"
+                 Width="48"
+                 Margin="436,0,0,0"
+                 VerticalContentAlignment="Center"
+                 KeyUp="TxtTextBottom_KeyUp" />
+        <Label Content="Text"
+               HorizontalAlignment="Left"
+               Margin="357,0,0,0"
+               VerticalAlignment="Center"
+               Padding="5,1,5,1" />
 
     </Grid>
 </UserControl>

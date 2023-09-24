@@ -45,8 +45,12 @@ namespace DrawingLib {
                 new Pen(new SolidColorBrush(ObjectColor), ActualLineWidth),
                 Rectangle);
 
-            if (!string.IsNullOrEmpty(DisplayText)) {
-                drawingContext.DrawText(formatedText, new Point() { X = Left, Y = Bottom });
+            if (!string.IsNullOrEmpty(displayTextBottom)) {
+                drawingContext.DrawText(UpdateText(displayTextBottom, Brushes.Red), new Point() { X = Left, Y = Bottom });
+            }
+
+            if (!string.IsNullOrEmpty(displayTextTop)) {
+                drawingContext.DrawText(UpdateText(displayTextTop, Brushes.Red), new Point() { X = Left, Y = Top - displayTextFontSize - 2 });
             }
             base.Draw(drawingContext);
         }

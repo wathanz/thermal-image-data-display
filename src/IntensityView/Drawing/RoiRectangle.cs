@@ -59,6 +59,26 @@ namespace DrawingLib {
         }
 
 
+        private string textOnTop = "";
+        public string TextOnTop {
+            get { return textOnTop; }
+            set {
+                if (SetProperty(ref textOnTop, value)) {
+                    this.rectangle.DisplayTextTop = textOnTop;
+                }
+            }
+        }
+
+        private string textOnBottom = "";
+        public string TextOnBottom {
+            get { return textOnBottom; }
+            set {
+                if (SetProperty(ref textOnBottom, value)) {
+                    this.rectangle.DisplayTextBottom = textOnBottom;
+                }
+            }
+        }
+
         private bool isVisible = true;
         public bool IsVisible {
             get { return isVisible; }
@@ -110,11 +130,10 @@ namespace DrawingLib {
             this.top = (int)rectangle.Top;
             this.width = (int)Math.Abs(rectangle.Right - rectangle.Left);
             this.height = (int)Math.Abs(rectangle.Bottom - rectangle.Top);
-            this.rectangle.DisplayText = this.id;
+
             this.thickness = rectangle.LineWidth;
             this.ColorString = rectangle.ObjectColor.ToString();
             PositionSizeInfo = $"{this.left:0}, {this.top:0}, {this.width:0}, {this.height:0}";
-
             rectangle.DrawingChanged += Rectangle_DrawingChanged;
         }
 
