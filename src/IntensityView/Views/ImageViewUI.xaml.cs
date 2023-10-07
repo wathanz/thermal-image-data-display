@@ -94,11 +94,9 @@ namespace IntensityView.Views {
             FitView(Info.ImageWidth, Info.ImageHeight);
         }
         public void FitView(double imageWidth, double imageHeight) {
-            //var fitZoom =ZoomUtil.CalculateFitZoom(ActualWidth, ActualHeight, imageWidth, imageHeight);
+            var fitZoom = ZoomUtil.CalculateFitZoom(ActualWidth, ActualHeight, imageWidth, imageHeight);
             var m = Matrix.Identity;
-            //m.Scale(fitZoom, fitZoom);
-            //m.OffsetX = (imageWidth - ActualWidth) /2.0;
-            //m.OffsetY = (imageHeight - ActualHeight) /2.0;
+            m.ScaleAt(fitZoom, fitZoom, imageWidth / 2.0, imageHeight / 2.0);
             GrdDrawContainer.RenderTransform = new MatrixTransform(m);
         }
 
@@ -125,8 +123,8 @@ namespace IntensityView.Views {
         }
 
         private void UpdateOverlayCanvasSize(double width, double height) {
-            GrdImageView.Width = width;
-            GrdImageView.Height = height;
+            GrdDrawContainer.Width = width;
+            GrdDrawContainer.Height = height;
             Info.ImageWidth = (int)width;
             Info.ImageHeight = (int)height;
             UpdateEffectiveScaleValue(GrdDrawContainer.RenderTransform.Value.M11);

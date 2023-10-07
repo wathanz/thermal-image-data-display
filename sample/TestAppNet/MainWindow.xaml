@@ -101,10 +101,10 @@
 
             </Grid>
             <Grid DockPanel.Dock="Left">
-                <Border Margin="10,10,10,100"
+                <Border Margin="10,10,10,100" x:Name="ImageViewBorder"
                         BorderThickness="0.5"
                         BorderBrush="Yellow">
-                    <ImgView:ImageViewUI x:Name="ImgViewUI"></ImgView:ImageViewUI>
+                    <ImgView:ImageViewUI Background="Green" x:Name="ImgViewUI"></ImgView:ImageViewUI>
                 </Border>
 
                 <Grid Margin="10,0,10,10"
