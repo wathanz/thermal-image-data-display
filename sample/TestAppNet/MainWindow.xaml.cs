@@ -34,7 +34,7 @@ namespace DemoAppNet {
             GrdViewInfo.DataContext = ImgViewUI.Info;
 
             mapGenerator.OnIntensityValuesChanged += MapGenerator_OnIntensityValuesChanged;
-            mapGenerator.Start(640, 480, minDataValue, maxDataValue, TimeSpan.FromSeconds(0.1));
+            mapGenerator.Start(400, 200, minDataValue, maxDataValue, TimeSpan.FromSeconds(0.1));
 
             ColorMappingsSelection.ItemsSource = ColorMapping.GetMappingKeys();
             ColorMappingsSelection.SelectedIndex = 0;
@@ -53,9 +53,6 @@ namespace DemoAppNet {
             }
 
             var action = new Action(() => {
-
-                var w = ImgViewUI.ActualWidth;
-                var h = ImgViewUI.ActualHeight;
                 var mappingName = ColorMappingsSelection.SelectedItem.ToString();
                 // convert intensity value to 0~255 byte array
                 var data = IntensityDataConverter.Convert(mappedData.Values, minDataValue, this.maxDataValue, 0, 255);
