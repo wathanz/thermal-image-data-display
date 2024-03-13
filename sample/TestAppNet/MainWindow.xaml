@@ -3,22 +3,23 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:ImgView="clr-namespace:IntensityView.Views;assembly=IntensityView"
+        xmlns:ImgView="clr-namespace:WpfIntensityView.Views;assembly=WpfIntensityView"
         xmlns:local="clr-namespace:DemoAppNet"
         ResizeMode="NoResize"
-        Background="Black"
+        Background="#FF212121"
         mc:Ignorable="d"
         Loaded="Window_Loaded"
         Closing="Window_Closing"
         Title="image view"
-        Height="482"
-        Width="800">
+        Height="500"
+        Width="800"
+        Icon="/icons/iva-icon.png">
     <Grid>
         <DockPanel LastChildFill="true">
             <Grid DockPanel.Dock="Right"
                   Width="200"
                   x:Name="GridSideView">
-                <Label Content="counter"
+                <Label Content="frame-counter"
                        Foreground="Teal"
                        HorizontalAlignment="Left"
                        HorizontalContentAlignment="Right"
@@ -67,23 +68,25 @@
                        Padding="5,2,5,2"
                        Height="20" />
                 <Button x:Name="BtnStart"
-                        Content="start"
+                        Content="▶ start"
                         HorizontalAlignment="Left"
                         Margin="15,109,0,0"
                         VerticalAlignment="Top"
                         Height="24"
                         Width="60"
-                        Click="BtnStart_Click" />
+                        Click="BtnStart_Click"
+                        BorderBrush="#FF0DA93A" />
                 <Button x:Name="BtnStop"
-                        Content="stop"
+                        Content="◼ stop"
                         HorizontalAlignment="Left"
                         Margin="80,109,0,0"
                         VerticalAlignment="Top"
                         Height="24"
                         Width="55"
-                        Click="BtnStop_Click" />
+                        Click="BtnStop_Click"
+                        BorderBrush="#FFAD0404" />
                 <Button x:Name="BtnResetView"
-                        Content="reset view"
+                        Content="fit view"
                         HorizontalAlignment="Left"
                         Margin="15,200,0,0"
                         VerticalAlignment="Top"
@@ -91,57 +94,65 @@
                         Width="120"
                         Click="BtnResetView_Click" />
                 <Button x:Name="BtnRoiInfo"
-                        Content="roi Info"
+                        Content="ROI Info"
                         HorizontalAlignment="Left"
                         Margin="15,233,0,0"
                         VerticalAlignment="Top"
                         Height="28"
                         Width="120"
                         Click="BtnRoiInfo_Click" />
+                <Button x:Name="BtnTrackerInfo"
+                        Content="debug info"
+                        HorizontalAlignment="Left"
+                        Margin="24,0,0,7"
+                        Width="120"
+                        Click="BtnTrackerInfo_Click"
+                        Height="28"
+                        VerticalAlignment="Bottom" />
 
             </Grid>
             <Grid DockPanel.Dock="Left">
-                <Border Margin="10,10,10,100" x:Name="ImageViewBorder"
-                        BorderThickness="0.5"
-                        BorderBrush="Yellow">
-                    <ImgView:ImageViewUI Background="Green" x:Name="ImgViewUI"></ImgView:ImageViewUI>
+                <Border Margin="10,10,10,120"
+                        x:Name="ImageViewBorder"
+                        BorderThickness="1"
+                        BorderBrush="Blue">
+                    <ImgView:ImageViewUI Background="#FF3C3C3C"
+                                         x:Name="ImgViewUI"></ImgView:ImageViewUI>
                 </Border>
 
                 <Grid Margin="10,0,10,10"
                       x:Name="GrdViewInfo"
-                      Background="Black"
-                      Height="85"
+                      Height="100"
                       VerticalAlignment="Bottom">
                     <ComboBox x:Name="ColorMappingsSelection"
                               IsEditable="False"
-                              Margin="0,0,0,57"
+                              Margin="0,0,1,77"
                               HorizontalAlignment="Right"
                               VerticalAlignment="Bottom"
                               Width="120"
                               SelectionChanged="PaletteSelectionChanged" />
                     <TextBlock HorizontalAlignment="Left"
                                Foreground="Teal"
-                               Margin="0,0,0,14"
                                TextWrapping="Wrap"
-                               Width="243"
-                               Height="63"
-                               VerticalAlignment="Bottom"><Run Text="to zoom and pan, clear all the selection" /><LineBreak /><Run Text="zoom: Mouse Wheel" /><LineBreak /><Run Text="pan: Left Mouse" /><LineBreak /><Run /><LineBreak /><Run /><LineBreak /><Run /></TextBlock>
-                    <Label Content="Width:"
+                               Width="378"
+                               Height="86"
+                               VerticalAlignment="Top"><Run Text="■ to zoom and pan, clear all the selection" /><LineBreak /><Run Text="■ to clear selection, left click on image area but not inside any ROI" /><LineBreak /><Run Text="■ zoom: mouse wheel" /><LineBreak /><Run Text="■ pan: left mouse down and move" /><LineBreak /><Run /><LineBreak /><Run /></TextBlock>
+                    <Label Content="Image Width:"
                            HorizontalAlignment="Left"
                            Foreground="Teal"
-                           Margin="319,2,0,0"
+                           Margin="372,32,0,0"
                            VerticalAlignment="Top"
-                           Width="59"
+                           Width="85"
                            HorizontalContentAlignment="Right"
                            VerticalContentAlignment="Center"
                            Height="18"
                            Padding="5,0,5,0" />
-                    <Label Content="Height:"
+                    <Label Content="Image Height:"
                            HorizontalAlignment="Left"
                            Foreground="Teal"
-                           Margin="319,20,0,0"
+                           Margin="363,50,0,0"
                            VerticalAlignment="Top"
-                           Width="59"
+                           Width="94"
                            HorizontalContentAlignment="Right"
                            VerticalContentAlignment="Center"
                            Height="18"
@@ -149,7 +160,7 @@
                     <Label Content="Zoom:"
                            HorizontalAlignment="Left"
                            Foreground="Teal"
-                           Margin="319,38,0,0"
+                           Margin="398,68,0,0"
                            VerticalAlignment="Top"
                            Width="59"
                            HorizontalContentAlignment="Right"
@@ -159,7 +170,7 @@
                     <Label Content="{Binding ImageWidth, UpdateSourceTrigger=PropertyChanged}"
                            HorizontalAlignment="Left"
                            Foreground="#FFA4E6E6"
-                           Margin="375,2,0,0"
+                           Margin="458,32,0,0"
                            VerticalAlignment="Top"
                            Width="59"
                            VerticalContentAlignment="Center"
@@ -168,7 +179,7 @@
                     <Label Content="{Binding ImageHeight, UpdateSourceTrigger=PropertyChanged}"
                            HorizontalAlignment="Left"
                            Foreground="#FFA4E6E6"
-                           Margin="375,20,0,0"
+                           Margin="458,50,0,0"
                            VerticalAlignment="Top"
                            Width="59"
                            VerticalContentAlignment="Center"
@@ -178,12 +189,22 @@
                            ContentStringFormat="N2"
                            HorizontalAlignment="Left"
                            Foreground="#FFA4E6E6"
-                           Margin="375,38,0,0"
+                           Margin="458,68,0,0"
                            VerticalAlignment="Top"
                            Width="59"
                            VerticalContentAlignment="Center"
                            Height="18"
                            Padding="5,0,5,0" />
+                    <Label Content="Mapping:"
+                           Foreground="Teal"
+                           Margin="0,3,124,0"
+                           VerticalAlignment="Top"
+                           HorizontalContentAlignment="Right"
+                           VerticalContentAlignment="Center"
+                           Height="18"
+                           Padding="5,0,5,0"
+                           HorizontalAlignment="Right"
+                           Width="66" />
                 </Grid>
             </Grid>
         </DockPanel>

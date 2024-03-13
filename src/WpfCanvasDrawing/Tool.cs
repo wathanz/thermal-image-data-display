@@ -1,0 +1,8 @@
+using System.Windows.Input;
+namespace WpfCanvasDrawing;
+abstract class Tool {
+    public abstract void OnMouseDown(DrawingCanvas drawingCanvas, MouseButtonEventArgs e);
+    public abstract void OnMouseMove(DrawingCanvas drawingCanvas, MouseEventArgs e);
+    public abstract void OnMouseUp(DrawingCanvas drawingCanvas, MouseButtonEventArgs e);
+    public abstract void SetCursor(DrawingCanvas drawingCanvas);
+}

@@ -4,13 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DemoAppNet" WindowStartupLocation="CenterOwner"
+        Background="Gray"
         mc:Ignorable="d"
         ResizeMode="NoResize"
-        Title="roi info"
+        Title="ROI info"
         Height="236"
-        Width="600" Loaded="Window_Loaded">
-    <Grid>
+        Width="650" Loaded="Window_Loaded"
+        Icon="/icons/iva-icon.png">
+    <Grid Background="Gray">
         <ListBox x:Name="ListBoxRois"
+                 Background="LightGray"
                  Margin="0,27,0,0" />
         <Button x:Name="BtnAdd"
                 Content="add-new"
