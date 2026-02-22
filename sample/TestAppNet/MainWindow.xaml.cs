@@ -98,10 +98,10 @@ public partial class MainWindow : Window {
             return;
         }
 
-        if (dataSource == null) return;
-        await dataSource.StopAsync();
-        dataSource.OnIntensityValuesChanged -= MapGenerator_OnIntensityValuesChanged;
-
+        if (dataSource != null) {
+            await dataSource.StopAsync();
+            dataSource.OnIntensityValuesChanged -= MapGenerator_OnIntensityValuesChanged;
+        }
     }
 
     private void BtnStart_Click(object sender, RoutedEventArgs e) {
