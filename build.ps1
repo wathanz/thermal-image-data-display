@@ -19,6 +19,20 @@ dotnet build "$PSScriptRoot\src\IntensityValueGeneration" -c $Configuration
 if ($LASTEXITCODE -ne 0) { throw "Build failed" }
 
 Write-Host "`n=== Packing NuGet package ===" -ForegroundColor Cyan
+
+# Ensure NuGet CLI is available (required for 'nuget pack')
+$nugetCmd = Get-Command nuget -ErrorAction SilentlyContinue
+if (-not $nugetCmd) {
+    Write-Host "NuGet CLI not found on PATH. Installing NuGet.CommandLine as a dotnet global tool..." -ForegroundColor Yellow
+    dotnet tool install -g NuGet.CommandLine
+    if ($LASTEXITCODE -ne 0) { throw "Failed to install NuGet.CommandLine global tool" }
+
+    # Add default dotnet tools path for the current session (Windows default)
+    $dotnetToolsPath = Join-Path $env:USERPROFILE ".dotnet\tools"
+    if (Test-Path $dotnetToolsPath -and ($env:PATH -notlike "*$dotnetToolsPath*")) {
+        $env:PATH = "$dotnetToolsPath;$env:PATH"
+    }
+}
 nuget pack "$PSScriptRoot\src\WpfIntensityView\IntensityView.nuspec" -OutputDirectory $OutputDir
 if ($LASTEXITCODE -ne 0) { throw "Pack failed" }
 
