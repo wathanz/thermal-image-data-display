@@ -43,8 +43,8 @@ public class FpsTrackerTest : IDisposable {
 
         //wait all data point are collected
         while (tracker.FpsRecordCounter < totalDataLenght * totalLenghtFactor) {
-            var internval = sleepDurationFrom + random.Next(diff);
-            totalTime += internval;
+            var interval = sleepDurationFrom + random.Next(diff);
+            totalTime += interval;
             await WaitForInterval(totalTime, startedTime, tokenSource.Token);
             tracker.Update(frameCounter++);
 
