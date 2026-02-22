@@ -22,10 +22,10 @@ public class IntensityDataMapBitmap : IIntensityDataMapBitmap {
         this.mapping = mapping;
         Update(480, 360, new byte[480 * 360], mapping.GetDefaultBitmapPaletteName(), out _);
     }
-    public void Update(int width, int height, byte[] data, string colorMappingName, out bool newImgeSize) {
+    public void Update(int width, int height, byte[] data, string colorMappingName, out bool newImageSize) {
         lock (syncObject) {
             int stride = (width * 8 + 7) / 8;
-            if (IsCreateNew(width, height, colorMappingName, out newImgeSize)) {
+            if (IsCreateNew(width, height, colorMappingName, out newImageSize)) {
                 this.colorMappingName = colorMappingName;
                 var colorMapping = mapping.GetBitmapPalette(colorMappingName);
                 var source = BitmapSource.Create(width, height, 96, 96, PixelFormats.Indexed8, colorMapping, data, stride);
@@ -42,13 +42,13 @@ public class IntensityDataMapBitmap : IIntensityDataMapBitmap {
         writeableSourceClone = writeableSource.Clone();
     }
 
-    private bool IsCreateNew(int width, int height, string colorMappingName, out bool newImgeSize) {
+    private bool IsCreateNew(int width, int height, string colorMappingName, out bool newImageSize) {
 
-        newImgeSize = writeableSource == null ||
+        newImageSize = writeableSource == null ||
             width != writeableSource.PixelWidth ||
             height != writeableSource.PixelHeight;
 
-        if (newImgeSize)
+        if (newImageSize)
             return true;
 
         if (colorMappingName != this.colorMappingName)
