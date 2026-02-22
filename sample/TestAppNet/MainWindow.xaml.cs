@@ -75,8 +75,8 @@ public partial class MainWindow : Window {
             var data = IntensityDataConverter.Convert(mappedData.Values, dataMin, dataMax, 0, 255);
 
             // update image display source data with selected color mapping
-            intensityDataBitmapView.Update(mappedData.Width, mappedData.Height, data, mappingName, newImgeSize: out bool newImgeSize);
-            ImgViewUI.UpdateImageSource(intensityDataBitmapView.WriteableSource, newImgeSize, trackingInfo);
+            intensityDataBitmapView.Update(mappedData.Width, mappedData.Height, data, mappingName, newImageSize: out bool newImageSize);
+            ImgViewUI.UpdateImageSource(intensityDataBitmapView.WriteableSource, newImageSize, trackingInfo);
         });
 
 
