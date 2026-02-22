@@ -89,7 +89,7 @@ public partial class RoiInfoControl : UserControl {
     private void UpdateThickness() {
         var text = TxtThicknessEntry.Text;
         if (!double.TryParse(text, out var result)) return;
-        if (result <= 0 && result > 10) return;
+        if (result <= 0 || result > 10) return;
         roiRectangle.LineWidth = result;
     }
     private void BtnRemove_Click(object sender, RoutedEventArgs e) {
