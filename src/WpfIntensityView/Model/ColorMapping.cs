@@ -25,7 +25,7 @@ public class ColorMapping : IColorMapping {
     private void LoadMappingReference() {
         var mappingSourceArray = CheckReferenceSourceBitmapFiles();
         foreach (var item in mappingSourceArray) {
-            var image = new SystemDrawing.Bitmap(item.Value);
+            using var image = new SystemDrawing.Bitmap(item.Value);
             var colors = new List<Color>();
 
             if (image.Width != 256) continue;
