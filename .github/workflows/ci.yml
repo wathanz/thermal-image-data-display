@@ -11,14 +11,17 @@ jobs:
     name: Format Check
     runs-on: windows-latest
     steps:
-      - run: git config --global core.autocrlf true
-
       - uses: actions/checkout@v4
 
-      - name: Re-checkout files with correct line endings
+      - name: Normalize line endings to CRLF
         run: |
-          git rm -r --cached .
-          git reset --hard HEAD
+          Get-ChildItem -Recurse -File -Include *.cs,*.xaml,*.csproj,*.props,*.targets,*.sln,*.json,*.config,*.nuspec,*.ps1,*.md,*.yml,*.yaml,*.editorconfig,*.gitignore,*.gitattributes |
+            Where-Object { $_.FullName -notmatch '\\(bin|obj|node_modules)\\' } |
+            ForEach-Object {
+              $content = [System.IO.File]::ReadAllText($_.FullName)
+              $fixed = $content -replace "`r`n", "`n" -replace "`n", "`r`n"
+              [System.IO.File]::WriteAllText($_.FullName, $fixed)
+            }
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
