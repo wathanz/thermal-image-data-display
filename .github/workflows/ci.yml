@@ -18,8 +18,10 @@ jobs:
         with:
           dotnet-version: 8.0.x
 
-      - name: Create local NuGet feed directory
-        run: New-Item -ItemType Directory -Path build -Force
+      - name: Build and pack NuGet package
+        run: |
+          dotnet build -c Release
+          nuget pack src\WpfIntensityView\IntensityView.nuspec -OutputDirectory build
 
       - name: Check formatting
         run: dotnet format --verify-no-changes --verbosity diagnostic
