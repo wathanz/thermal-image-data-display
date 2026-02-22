@@ -103,14 +103,10 @@ public partial class MainWindow : Window {
             return;
         }
 
-        e.Cancel = true;
-
         if (dataSource != null) {
             await dataSource.StopAsync();
             dataSource.OnIntensityValuesChanged -= MapGenerator_OnIntensityValuesChanged;
         }
-
-        Close();
     }
 
     private void BtnStart_Click(object sender, RoutedEventArgs e) {
