@@ -12,10 +12,10 @@ if (-not (Test-Path $OutputDir)) {
 }
 
 Write-Host "=== Building src projects ($Configuration) ===" -ForegroundColor Cyan
-dotnet build "$PSScriptRoot\src\IntensityMapping.Core" -c $Configuration
-dotnet build "$PSScriptRoot\src\WpfCanvasDrawing" -c $Configuration
-dotnet build "$PSScriptRoot\src\WpfIntensityView" -c $Configuration
-dotnet build "$PSScriptRoot\src\IntensityValueGeneration" -c $Configuration
+dotnet build "$PSScriptRoot\src\IntensityMapping.Core\IntensityMapping.Core.csproj" -c $Configuration
+dotnet build "$PSScriptRoot\src\WpfCanvasDrawing\WpfCanvasDrawing.csproj" -c $Configuration
+dotnet build "$PSScriptRoot\src\WpfIntensityView\WpfIntensityView.csproj" -c $Configuration
+dotnet build "$PSScriptRoot\src\IntensityValueGeneration\IntensityValueGeneration.csproj" -c $Configuration
 if ($LASTEXITCODE -ne 0) { throw "Build failed" }
 
 Write-Host "`n=== Packing NuGet package ===" -ForegroundColor Cyan
