@@ -13,20 +13,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Normalize line endings to CRLF
-        run: |
-          Get-ChildItem -Recurse -File -Include *.cs,*.xaml,*.csproj,*.props,*.targets,*.sln,*.json,*.config,*.nuspec,*.ps1,*.md,*.yml,*.yaml,*.editorconfig,*.gitignore,*.gitattributes |
-            Where-Object { $_.FullName -notmatch '\\(bin|obj|node_modules)\\' } |
-            ForEach-Object {
-              $content = [System.IO.File]::ReadAllText($_.FullName)
-              $fixed = $content -replace "`r`n", "`n" -replace "`n", "`r`n"
-              [System.IO.File]::WriteAllText($_.FullName, $fixed)
-            }
-
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 8.0.x
+          dotnet-version: 9.0.x
 
       - name: Build and pack NuGet package
         run: .\build.ps1
