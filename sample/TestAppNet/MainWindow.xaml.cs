@@ -39,7 +39,7 @@ public partial class MainWindow : Window {
         var imageHeight = 1080;
         valueGenerationConfig.Interval = 50;
 
-        var patternGenerator = new GridentPatternGenerator(imageWidth, imageHeight, valueGenerationConfig.DataMin, valueGenerationConfig.DataMax);
+        var patternGenerator = new GradientPatternGenerator(imageWidth, imageHeight, valueGenerationConfig.DataMin, valueGenerationConfig.DataMax);
         dataSource = new PeriodicIntensityDataSource(patternGenerator, valueGenerationConfig);
         GridSideView.DataContext = dataSource;
         GrdViewInfo.DataContext = ImgViewUI.Info;

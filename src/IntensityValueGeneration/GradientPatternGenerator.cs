@@ -2,14 +2,14 @@
 using IntensityMapping.Core.Interface;
 
 namespace IntensityValueGeneration;
-public class GridentPatternGenerator : IIntensityValueGenerator {
+public class GradientPatternGenerator : IIntensityValueGenerator {
     private readonly int height;
     private readonly double dataMin;
     private readonly double dataMax;
     private readonly int width;
     private long lastStartedCol = 0;
 
-    public GridentPatternGenerator(int width, int height, double dataMin = 0, double dataMax = 10) {
+    public GradientPatternGenerator(int width, int height, double dataMin = 0, double dataMax = 10) {
         this.width = width;
         this.height = height;
         this.dataMin = dataMin;
