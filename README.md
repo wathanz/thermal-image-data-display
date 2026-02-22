@@ -39,37 +39,78 @@ dotnet build
 dotnet test
 ```
 
+## NuGet Package
+
+All libraries under `src/` are packaged into a single NuGet package: **IntensityMapImageViewer**.
+
+**Build and pack (one step):**
+```sh
+.\build.ps1
+```
+
+This will:
+1. Build the solution in Release configuration
+2. Pack the NuGet package to the `build/` folder
+3. Display the package contents for verification
+
+**Pack manually:**
+```sh
+dotnet build -c Release
+nuget pack src\WpfIntensityView\IntensityView.nuspec -OutputDirectory build
+```
+
+**Using the package locally:**
+
+The `NuGet.Config` includes a local feed pointing to the `build/` folder. To reference the package in a project:
+```xml
+<PackageReference Include="IntensityMapImageViewer" Version="1.0.0-alpha" />
+```
+
+**Package contents:**
+
+| Assembly | Description |
+|----------|-------------|
+| IntensityMapping.Core | Shared data model and intensity-to-byte conversion |
+| IntensityValueGeneration | Periodic intensity data source for testing |
+| WpfCanvasDrawing | ROI graphics drawing overlays |
+| WpfIntensityView | WPF image view control with color mapping |
+
+Supported frameworks: `net8.0-windows`, `net48`
+
+## Project Details
 
 ### Intensity Mapping (IntensityMapping.Core.csproj)
-shared data model and intensity value conversion to byte value (eg. 0.0~10.0 to 0 ~ 255)
+Shared data model and intensity value conversion to byte value (e.g. 0.0~10.0 to 0~255).
 
-Color Mapping Samples
-#### Rainbow
+#### Color Mapping Samples
+##### Rainbow
 ![rainbow](image/Rainbow_Palette.bmp)
-#### Ironbow
+##### Ironbow
 ![ironbow](image/Ironbow_Palette.bmp)
 
 ### Wpf Canvas Drawing (WpfCanvasDrawing.csproj)
-ROI graphics drawing overlays on the top of image view. Canvas drawing code were reference from https://github.com/songzhu/DrawToolsWPF and made necessary changes for ROI rectangle drawing.
+ROI graphics drawing overlays on top of the image view. Canvas drawing code was referenced from https://github.com/songzhu/DrawToolsWPF with necessary changes for ROI rectangle drawing.
 
 ### Wpf Intensity View (WpfIntensityView.csproj)
-Data are mapped to RGB value and generate bitmap source using selected color mapping (eg. rainbow, ironbow).
-Image view WpfUI control displaying data with selected color mapping
+Data is mapped to RGB values and rendered as a bitmap source using the selected color mapping (e.g. rainbow, ironbow).
+WPF image view control for displaying data with selected color mapping.
 
 ### Intensity Value Generation (IntensityValueGeneration.csproj)
-utility classes which provides a periodic intensity generation for testing
-(it can be considered as sample data source, instead of real data providers, sensor/thermal camera)
+Utility classes that provide periodic intensity data generation for testing.
+Can be used as a sample data source instead of real data providers (e.g. sensor/thermal camera).
 
-### Demo App net (DemoAppNet)
-project demonstrates 2D intensity values (thermal data) to RGB image data display for WPF-UI application, using IntensityView library
+### Demo App (DemoAppNet)
+Demonstrates 2D intensity values (thermal data) mapped to RGB image display in a WPF application, using the IntensityMapImageViewer library.
 ![screenshot](image/demo.gif)
 
 ## Structure
 ```sh
-Solution Items/
-  .editorconfig
-  Directory.Build.props
-  README.md
+build.ps1
+Directory.Build.props
+NuGet.Config
+README.md
+build/
+  IntensityMapImageViewer.*.nupkg
 src/
   IntensityMapping.Core/
   IntensityValueGeneration/
@@ -77,7 +118,6 @@ src/
   WpfIntensityView/
 sample/
   DemoAppNet/
-  image/
 test/
   IntensityMapping.Core.Tests/
-  ```
+```

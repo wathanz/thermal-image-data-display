@@ -31,14 +31,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="IntensityMapImageViewer" Version="1.0.0-alpha" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="$(MicrosoftExtensionsDependencyInjectionVersion)" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="$(MicrosoftExtensionsHostingVersion)" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\IntensityMapping.Core\IntensityMapping.Core.csproj" />
-    <ProjectReference Include="..\..\src\IntensityValueGeneration\IntensityValueGeneration.csproj" />
-    <ProjectReference Include="..\..\src\WpfIntensityView\WpfIntensityView.csproj" />
   </ItemGroup>
 
 </Project>
