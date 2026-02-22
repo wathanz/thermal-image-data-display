@@ -53,7 +53,7 @@ public partial class ImageViewUI : UserControl, IImageViewUI {
     };
     public void AddNewRoi(int left = 5, int top = 5, int width = 50, int height = 30) {
         var limit = 20;
-        if (OverlayCanvas.Count > limit) throw new DrawingCanvasException($"Roi Max Limit {limit}");
+        if (OverlayCanvas.Count >= limit) throw new DrawingCanvasException($"Roi Max Limit {limit}");
 
 
         var colorIndex = roiCount % RoiColors.Length;
