@@ -1,4 +1,4 @@
-﻿using IntensityMapping.Core.Data;
+using IntensityMapping.Core.Data;
 using IntensityMapping.Core.Interface;
 
 namespace IntensityValueGeneration;
@@ -35,6 +35,4 @@ public class GradientPatternGenerator : IIntensityValueGenerator {
         if (diff < 0) diff = column + diff;
         return min + (max - min) * (diff / (double)column);
     }
-
-
 }
