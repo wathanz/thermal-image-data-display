@@ -11,8 +11,6 @@ jobs:
     name: Format Check
     runs-on: windows-latest
     steps:
-      - run: git config --global core.autocrlf true
-
       - uses: actions/checkout@v4
 
       - name: Setup .NET
