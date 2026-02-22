@@ -11,7 +11,14 @@ jobs:
     name: Format Check
     runs-on: windows-latest
     steps:
+      - run: git config --global core.autocrlf true
+
       - uses: actions/checkout@v4
+
+      - name: Re-checkout files with correct line endings
+        run: |
+          git rm -r --cached .
+          git reset --hard HEAD
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
