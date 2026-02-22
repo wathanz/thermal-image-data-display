@@ -75,19 +75,9 @@ public class FpsTrackerTest : IDisposable {
     }
 
     private async Task WaitForInterval(int duration, DateTime startedTime, CancellationToken token) {
-        await Task.Run(async () => {
-            while (true) {
-
-                if (token.IsCancellationRequested)
-                    break;
-
-                if (DateTime.Now - startedTime >= TimeSpan.FromMilliseconds(duration)) {
-                    return;
-                }
-                await Task.Delay(0);
-            }
-        }, token);
-
-
+        var remaining = startedTime.AddMilliseconds(duration) - DateTime.Now;
+        if (remaining > TimeSpan.Zero) {
+            await Task.Delay(remaining, token);
+        }
     }
 }
