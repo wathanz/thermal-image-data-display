@@ -23,8 +23,9 @@ public class ValueGenerationConfig : IValueGenerationConfig {
 /// <summary>
 /// Utility class to Generate Intensity Values Periodically
 /// </summary>
-public class PeriodicIntensityDataSource : NotifyPropertyChangedBase, IIntensityDataSource {
+public class PeriodicIntensityDataSource : NotifyPropertyChangedBase, IIntensityDataSource, IDisposable {
     private bool isStarted = false;
+    private bool disposed = false;
     private IIntensityValueGenerator valueGenerator = null;
 
     //callback for the Generated value changed
@@ -113,7 +114,23 @@ public class PeriodicIntensityDataSource : NotifyPropertyChangedBase, IIntensity
         }).ConfigureAwait(false);
     }
 
-    ~PeriodicIntensityDataSource() {
-        StopAsync().Wait();
+    public void Dispose() {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing) {
+        if (disposed) return;
+        if (disposing) {
+            if (isStarted) {
+                StopTimmer();
+                evntOnElaspedExecuted.Wait(2000);
+                tracker.Stop();
+                isStarted = false;
+            }
+            timer.Dispose();
+            evntOnElaspedExecuted.Dispose();
+        }
+        disposed = true;
     }
 }
