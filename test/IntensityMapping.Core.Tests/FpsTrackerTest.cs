@@ -26,7 +26,7 @@ public class FpsTrackerTest : IDisposable {
     [InlineData(50, 50, 18.5, 21, 3)]
     [InlineData(20, 22, 45, 52)]
     [InlineData(20, 22, 45, 52, 2)]
-    public async void TrackAndVerifyCalulatedFps(int sleepDurationFrom, int sleepDurationTo,
+    public async Task TrackAndVerifyCalulatedFps(int sleepDurationFrom, int sleepDurationTo,
         double minExpectedFps, double maxExpectedFps, float totalLenghtFactor = 1.0f) {
         var tracker = new FpsTracker() as IFpsTracker;
         tracker.Start();
