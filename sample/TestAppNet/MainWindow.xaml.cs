@@ -20,7 +20,6 @@ public partial class MainWindow : Window {
 
     private IIntensityDataSource dataSource;
     private IntensityData<double> lastDisplayMap;
-    private bool _isClosing;
     private IIntensityDataMapBitmap intensityDataBitmapView;
     private IColorMapping colorMapping;
     private IValueGenerationConfig valueGenerationConfig;
@@ -91,14 +90,10 @@ public partial class MainWindow : Window {
 
 
     private async void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
-        if (_isClosing) return;
-        _isClosing = true;
-
         var exitApplication = MessageBox.Show("Exit Application?", "Exit?", MessageBoxButton.YesNo)
             == MessageBoxResult.Yes;
 
         if (!exitApplication) {
-            _isClosing = false;
             e.Cancel = true;
             return;
         }
