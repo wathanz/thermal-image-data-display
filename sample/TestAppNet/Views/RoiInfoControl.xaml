@@ -9,29 +9,68 @@
              BorderThickness="0,0,0,1"
              Background="LightGray"
              d:DesignHeight="22"
-             d:DesignWidth="550">
+             d:DesignWidth="630">
+    <UserControl.Resources>
+        <Style x:Key="ToolTipWithErrorMessageOnErrorStyle"
+               TargetType="TextBox">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError"
+                         Value="True">
+                    <Setter Property="ToolTip"
+                            Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="RedBackgroundOnErrorStyle"
+               TargetType="TextBox"
+               BasedOn="{StaticResource ToolTipWithErrorMessageOnErrorStyle}">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError"
+                         Value="True">
+                    <Setter Property="Background"
+                            Value="Salmon" />
+                    <Setter Property="BorderThickness"
+                            Value="0" />
+
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <ControlTemplate x:Key="validationTemplate">
+            <DockPanel>
+                <AdornedElementPlaceholder />
+            </DockPanel>
+        </ControlTemplate>
+    </UserControl.Resources>
     <Grid>
         <TextBox x:Name="TxtTopEntry"
                  HorizontalAlignment="Left"
                  TextWrapping="Wrap"
                  BorderThickness="0"
-                 Text="{Binding Top, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                 Validation.ErrorTemplate="{StaticResource validationTemplate}"
+                 Text="{Binding TopEntry, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                        ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+                 Style="{StaticResource RedBackgroundOnErrorStyle}"
                  VerticalAlignment="Center"
                  Width="30"
-                 Margin="87,0,0,0"
-                 KeyUp="TxtTopEntry_KeyUp"
+                 Margin="120,0,0,0"
+                 Tag="TopEntry"
+                 KeyUp="TxtSizePositionEntry_KeyUp"
+                 LostFocus="TxtSizePositionEntry_LostFocus"
                  VerticalContentAlignment="Center" />
         <Label Content="{Binding Id}"
                HorizontalAlignment="Left"
+               HorizontalContentAlignment="Right"
                VerticalAlignment="Center"
                Padding="5,0,5,0"
-               Width="52"
+               Width="80"
                VerticalContentAlignment="Center"
                Height="15"
                Margin="3,0,0,0" />
         <CheckBox Content="👀"
                   HorizontalAlignment="Left"
-                  Margin="191,0,0,0"
+                  Margin="243,0,0,0"
                   IsChecked="{Binding IsVisible, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                   VerticalAlignment="Center"
                   Height="NaN" />
@@ -39,25 +78,35 @@
                  HorizontalAlignment="Left"
                  TextWrapping="Wrap"
                  BorderThickness="0"
-                 Text="{Binding ColorString, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                 Validation.ErrorTemplate="{StaticResource validationTemplate}"
+                 Text="{Binding TxtColorEntry, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                        ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+                 Style="{StaticResource RedBackgroundOnErrorStyle}"
                  VerticalAlignment="Center"
                  Width="74"
-                 Margin="239,0,0,0"
+                 Tag="TxtColorEntry"
                  VerticalContentAlignment="Center"
-                 KeyUp="TxtColorEntry_KeyUp" />
+                 KeyUp="TxtColorEntry_KeyUp"
+                 LostFocus="TxtColorEntry_LostFocus"
+                 Margin="284,0,0,0" />
         <TextBox x:Name="TxtThicknessEntry"
                  HorizontalAlignment="Left"
                  TextWrapping="Wrap"
                  BorderThickness="0"
-                 Text="{Binding Thickness, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                 Validation.ErrorTemplate="{StaticResource validationTemplate}"
+                 Text="{Binding ThicknessEntry, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                         ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+                 Style="{StaticResource RedBackgroundOnErrorStyle}"
                  VerticalAlignment="Center"
-                 Width="22"
-                 Margin="317,0,0,0"
+                 Width="28"
+                 Margin="361,0,0,0"
+                 Tag="ThicknessEntry"
                  KeyUp="TxtThicknessEntry_KeyUp"
+                 LostFocus="TxtThicknessEntry_LostFocus"
                  VerticalContentAlignment="Center" />
         <Button x:Name="BtnRemove"
                 Content="Remove"
-                Margin="493,0,0,0"
+                Margin="541,0,0,0"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Left"
                 Width="54"
@@ -66,40 +115,56 @@
                  HorizontalAlignment="Left"
                  TextWrapping="Wrap"
                  BorderThickness="0"
-                 Text="{Binding Left, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                 Text="{Binding LeftEntry, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                        ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+                 Style="{StaticResource RedBackgroundOnErrorStyle}"
                  VerticalAlignment="Center"
                  Width="30"
-                 Margin="55,0,0,0"
+                 Margin="88,0,0,0"
                  VerticalContentAlignment="Center"
-                 KeyUp="TxtLeftEntry_KeyUp" />
+                 Tag="LeftEntry"
+                 KeyUp="TxtSizePositionEntry_KeyUp"
+                 LostFocus="TxtSizePositionEntry_LostFocus">
+        </TextBox>
         <TextBox x:Name="TxtWidthEntry"
                  HorizontalAlignment="Left"
                  TextWrapping="Wrap"
                  BorderThickness="0"
-                 Text="{Binding Width, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                 Validation.ErrorTemplate="{StaticResource validationTemplate}"
+                 Text="{Binding WidthEntry, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                        ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+                 Style="{StaticResource RedBackgroundOnErrorStyle}"
                  VerticalAlignment="Center"
                  Width="30"
-                 Margin="124,0,0,0"
-                 KeyUp="TxtWidthEntry_KeyUp"
+                 Margin="157,0,0,0"
+                 Tag="WidthEntry"
+                 KeyUp="TxtSizePositionEntry_KeyUp"
+                 LostFocus="TxtSizePositionEntry_LostFocus"
                  VerticalContentAlignment="Center" />
         <TextBox x:Name="TxtHeightEntry"
                  HorizontalAlignment="Left"
                  TextWrapping="Wrap"
                  BorderThickness="0"
-                 Text="{Binding Height, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                 Validation.ErrorTemplate="{StaticResource validationTemplate}"
+                 Text="{Binding HeightEntry, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                        ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+                 Style="{StaticResource RedBackgroundOnErrorStyle}"
                  VerticalAlignment="Center"
                  Width="30"
-                 Margin="156,0,0,0"
-                 KeyUp="TxtHeightEntry_KeyUp"
+                 Margin="189,0,0,0"
+                 Tag="HeightEntry"
+                 KeyUp="TxtSizePositionEntry_KeyUp"
+                 LostFocus="TxtSizePositionEntry_LostFocus"
                  VerticalContentAlignment="Center" />
         <TextBox x:Name="TxtTextTop"
                  HorizontalAlignment="Left"
                  TextWrapping="Wrap"
                  BorderThickness="0"
+                 IsReadOnly="True"
                  Text="{Binding TextOnTop, Mode=OneWay}"
                  VerticalAlignment="Center"
                  Width="43"
-                 Margin="388,0,0,0"
+                 Margin="421,0,0,0"
                  VerticalContentAlignment="Center"
                  KeyUp="TxtTextTop_KeyUp" />
         <TextBox x:Name="TxtTextBottom"
@@ -108,13 +173,14 @@
                  BorderThickness="0"
                  VerticalAlignment="Center"
                  Text="{Binding TextOnBottom, Mode=OneWay}"
-                 Width="48"
-                 Margin="436,0,0,0"
+                 Width="68"
+                 Margin="469,0,0,0"
                  VerticalContentAlignment="Center"
-                 KeyUp="TxtTextBottom_KeyUp" />
+                 KeyUp="TxtTextBottom_KeyUp"
+                 LostFocus="TxtTextBottom_LostFocus"/>
         <Label Content="Text"
                HorizontalAlignment="Left"
-               Margin="357,0,0,0"
+               Margin="390,0,0,0"
                VerticalAlignment="Center"
                Padding="5,1,5,1" />
 

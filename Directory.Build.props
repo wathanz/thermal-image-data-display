@@ -1,0 +1,10 @@
+<Project>
+  <PropertyGroup>
+    <CSharpLangVersion>10</CSharpLangVersion>
+    <SystemDrawingCommonVersion>7.0.0</SystemDrawingCommonVersion>
+    <SystemTextJsonVersion>9.0.1</SystemTextJsonVersion>
+    
+    <MicrosoftExtensionsDependencyInjectionVersion>8.0.0</MicrosoftExtensionsDependencyInjectionVersion>
+    <MicrosoftExtensionsHostingVersion>8.0.0</MicrosoftExtensionsHostingVersion>
+</PropertyGroup>
+</Project>

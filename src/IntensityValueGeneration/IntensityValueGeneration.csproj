@@ -1,12 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0-windows;net48</TargetFrameworks>
-    <UseWPF>true</UseWPF>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>10</LangVersion>
   </PropertyGroup>
 
+ 
+
   <ItemGroup>
-    <ProjectReference Include="..\..\src\IntensityView\IntensityView.csproj" />
+    <ProjectReference Include="..\IntensityMapping.Core\IntensityMapping.Core.csproj" />
   </ItemGroup>
+
+  
 
 </Project>

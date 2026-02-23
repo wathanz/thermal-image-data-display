@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>IntensityMapImageViewer</id>
+    <version>1.0.0-alpha</version>
+    <title>Intensity Map Wpf Image Viewer</title>
+    <authors>wathanz</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <projectUrl>https://github.com/wathanz/thermal-image-data-display/</projectUrl>
+    <description>WPF control for displaying mapped 2D intensity data (e.g. thermal data) with color palettes and ROI overlays.</description>
+    <tags>WPF Intensity Visualization ROI Thermal</tags>
+    <releaseNotes>initial release</releaseNotes>
+    <dependencies>
+      <group targetFramework=".NETFramework4.8">
+        <dependency id="System.Drawing.Common" version="7.0.0" exclude="Build,Analyzers" />
+        <dependency id="System.Text.Json" version="9.0.1" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net8.0-windows7.0">
+        <dependency id="System.Drawing.Common" version="7.0.0" exclude="Build,Analyzers" />
+        <dependency id="System.Text.Json" version="9.0.1" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+    <frameworkReferences>
+      <group targetFramework="net8.0-windows7.0">
+        <frameworkReference name="Microsoft.WindowsDesktop.App.WPF" />
+      </group>
+      <group targetFramework=".NETFramework4.8" />
+    </frameworkReferences>
+    <contentFiles>
+      <files include="any/any/ReferenceImage/Blackhot_Palette.bmp" buildAction="Content" copyToOutput="true" />
+      <files include="any/any/ReferenceImage/Ironbow_Palette.bmp" buildAction="Content" copyToOutput="true" />
+      <files include="any/any/ReferenceImage/Rainbow_Palette.bmp" buildAction="Content" copyToOutput="true" />
+      <files include="any/any/ReferenceImage/RainbowFlip_Palette.bmp" buildAction="Content" copyToOutput="true" />
+      <files include="any/any/ReferenceImage/Whitehot_Palette.bmp" buildAction="Content" copyToOutput="true" />
+    </contentFiles>
+  </metadata>
+  <files>
+    <!-- .NET Framework 4.8 -->
+    <file src="bin\Release\net48\IntensityMapping.Core.dll" target="lib\net48\" />
+    <file src="..\IntensityValueGeneration\bin\Release\netstandard2.0\IntensityValueGeneration.dll" target="lib\net48\" />
+    <file src="bin\Release\net48\WpfCanvasDrawing.dll" target="lib\net48\" />
+    <file src="bin\Release\net48\WpfIntensityView.dll" target="lib\net48\" />
+
+    <!-- .NET 8.0 Windows -->
+    <file src="bin\Release\net8.0-windows\IntensityMapping.Core.dll" target="lib\net8.0-windows7.0\" />
+    <file src="..\IntensityValueGeneration\bin\Release\netstandard2.0\IntensityValueGeneration.dll" target="lib\net8.0-windows7.0\" />
+    <file src="bin\Release\net8.0-windows\WpfCanvasDrawing.dll" target="lib\net8.0-windows7.0\" />
+    <file src="bin\Release\net8.0-windows\WpfIntensityView.dll" target="lib\net8.0-windows7.0\" />
+
+    <!-- Content files (palette images) -->
+    <file src="ReferenceImage\*.bmp" target="contentFiles\any\any\ReferenceImage\" />
+  </files>
+</package>

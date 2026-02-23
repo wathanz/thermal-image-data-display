@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0-windows;net48</TargetFrameworks>
+    <UseWPF>true</UseWPF>
+    <LangVersion>$(CSharpLangVersion)</LangVersion>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="ReferenceImage\Blackhot_Palette.bmp" />
+    <None Remove="ReferenceImage\Ironbow_Palette.bmp" />
+    <None Remove="ReferenceImage\RainbowFlip_Palette.bmp" />
+    <None Remove="ReferenceImage\Rainbow_Palette.bmp" />
+    <None Remove="ReferenceImage\Whitehot_Palette.bmp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ReferenceImage\Blackhot_Palette.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ReferenceImage\Ironbow_Palette.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ReferenceImage\Rainbow_Palette.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ReferenceImage\RainbowFlip_Palette.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ReferenceImage\Whitehot_Palette.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="$(SystemDrawingCommonVersion)" />
+    <PackageReference Include="System.Text.Json" Version="$(SystemTextJsonVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IntensityMapping.Core\IntensityMapping.Core.csproj" />
+    <ProjectReference Include="..\WpfCanvasDrawing\WpfCanvasDrawing.csproj" />
+  </ItemGroup>
+
+</Project>

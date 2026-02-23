@@ -8,10 +8,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BF2D1BB4-818D-43EE-8858-AFBCDDAEB1CE}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		Directory.Build.props = Directory.Build.props
 		README.md = README.md
 	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntensityView", "src\IntensityView\IntensityView.csproj", "{AB003F6C-5A93-4217-A869-212528C32CAF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{525CABA4-F1C8-4D68-B5FE-EE09AC892B74}"
 EndProject
@@ -19,16 +18,29 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DemoAppNet", "sample\TestAp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntensityValueGeneration", "src\IntensityValueGeneration\IntensityValueGeneration.csproj", "{D987587D-648F-4BA5-8680-7667E0EDF26B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntensityMapping.Core", "src\IntensityMapping.Core\IntensityMapping.Core.csproj", "{3E418521-E05C-4EF0-8076-76BC747A987A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "image", "image", "{36CF7577-3587-45B0-8E48-B90E3DCDF20B}"
+	ProjectSection(SolutionItems) = preProject
+		image\demo.gif = image\demo.gif
+		image\Ironbow_Palette.bmp = image\Ironbow_Palette.bmp
+		image\Rainbow_Palette.bmp = image\Rainbow_Palette.bmp
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfCanvasDrawing", "src\WpfCanvasDrawing\WpfCanvasDrawing.csproj", "{883204A7-D5F3-47DB-A966-3BF9BBC38776}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfIntensityView", "src\WpfIntensityView\WpfIntensityView.csproj", "{B09C740B-B0BB-4C76-BEB2-A84A0E807F22}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{1AF872D6-8A75-4A7A-8D31-62F2FF733EE5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntensityMapping.Core.Tests", "test\IntensityMapping.Core.Tests\IntensityMapping.Core.Tests.csproj", "{BDF855A3-F30C-4034-8ACA-8C9FFDC428FD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AB003F6C-5A93-4217-A869-212528C32CAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AB003F6C-5A93-4217-A869-212528C32CAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AB003F6C-5A93-4217-A869-212528C32CAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AB003F6C-5A93-4217-A869-212528C32CAF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7E99A9D6-96E7-488E-90A3-2E342CD13915}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7E99A9D6-96E7-488E-90A3-2E342CD13915}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E99A9D6-96E7-488E-90A3-2E342CD13915}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -37,13 +49,34 @@ Global
 		{D987587D-648F-4BA5-8680-7667E0EDF26B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D987587D-648F-4BA5-8680-7667E0EDF26B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D987587D-648F-4BA5-8680-7667E0EDF26B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E418521-E05C-4EF0-8076-76BC747A987A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E418521-E05C-4EF0-8076-76BC747A987A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E418521-E05C-4EF0-8076-76BC747A987A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E418521-E05C-4EF0-8076-76BC747A987A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{883204A7-D5F3-47DB-A966-3BF9BBC38776}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{883204A7-D5F3-47DB-A966-3BF9BBC38776}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{883204A7-D5F3-47DB-A966-3BF9BBC38776}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{883204A7-D5F3-47DB-A966-3BF9BBC38776}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B09C740B-B0BB-4C76-BEB2-A84A0E807F22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B09C740B-B0BB-4C76-BEB2-A84A0E807F22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B09C740B-B0BB-4C76-BEB2-A84A0E807F22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B09C740B-B0BB-4C76-BEB2-A84A0E807F22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDF855A3-F30C-4034-8ACA-8C9FFDC428FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDF855A3-F30C-4034-8ACA-8C9FFDC428FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDF855A3-F30C-4034-8ACA-8C9FFDC428FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDF855A3-F30C-4034-8ACA-8C9FFDC428FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{AB003F6C-5A93-4217-A869-212528C32CAF} = {525CABA4-F1C8-4D68-B5FE-EE09AC892B74}
 		{7E99A9D6-96E7-488E-90A3-2E342CD13915} = {8041F928-B834-469B-9995-23D8BCD95B72}
+		{D987587D-648F-4BA5-8680-7667E0EDF26B} = {525CABA4-F1C8-4D68-B5FE-EE09AC892B74}
+		{3E418521-E05C-4EF0-8076-76BC747A987A} = {525CABA4-F1C8-4D68-B5FE-EE09AC892B74}
+		{36CF7577-3587-45B0-8E48-B90E3DCDF20B} = {BF2D1BB4-818D-43EE-8858-AFBCDDAEB1CE}
+		{883204A7-D5F3-47DB-A966-3BF9BBC38776} = {525CABA4-F1C8-4D68-B5FE-EE09AC892B74}
+		{B09C740B-B0BB-4C76-BEB2-A84A0E807F22} = {525CABA4-F1C8-4D68-B5FE-EE09AC892B74}
+		{BDF855A3-F30C-4034-8ACA-8C9FFDC428FD} = {1AF872D6-8A75-4A7A-8D31-62F2FF733EE5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7BD63881-EBB5-4DBC-B570-D79C256ADE35}
