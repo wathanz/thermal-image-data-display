@@ -1,8 +1,7 @@
 ﻿using IntensityMapping.Core;
-using IntensityMapping.Core.Interface;
 using System.Threading.Tasks;
 
-namespace IntensityValueGeneration;
+namespace IntensityMapping.Core.Interface;
 
 public delegate void IntensityValuesChangedHandler(object sender, MapChangedEventArgs args);
 public interface IIntensityDataSource {

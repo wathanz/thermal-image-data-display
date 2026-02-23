@@ -1,5 +1,5 @@
 ﻿using IntensityMapping.Core;
-using IntensityValueGeneration;
+using IntensityMapping.Core.Interface;
 using System;
 using System.Text;
 using System.Windows;
