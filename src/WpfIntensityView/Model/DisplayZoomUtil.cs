@@ -28,8 +28,8 @@ internal static class ZoomUtil {
         var screenWidth = Math.Min(actualControlWidth, actualControlWidth - screenMarginOffset);
 
         if (screenHeight < minScreenSize || screenWidth < minScreenSize) {
-            screenHeight = Math.Max(actualControlHeight, actualControlHeight - minScreenSize);
-            screenWidth = Math.Max(actualControlWidth, actualControlWidth);
+            screenHeight = Math.Max(screenHeight, minScreenSize);
+            screenWidth = Math.Max(screenWidth, minScreenSize);
         }
         return CalculateFitScreenValue((int)newImageWidth, (int)newImageHeight, (int)screenWidth, (int)screenHeight);
     }
