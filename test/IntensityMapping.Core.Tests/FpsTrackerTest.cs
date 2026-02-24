@@ -70,8 +70,8 @@ public class FpsTrackerTest : IDisposable {
     }
 
     private void AssertFpsInRange(float fps, double min, double max, string testFor) {
-        var atTheEndInrange = fps >= min && min <= max;
-        Assert.True(atTheEndInrange, $"during {testFor} test, {min} is out of range {min} ~ {max}");
+        var atTheEndInrange = fps >= min && fps <= max;
+        Assert.True(atTheEndInrange, $"during {testFor} test, {fps} is out of range {min} ~ {max}");
     }
 
     private async Task WaitForInterval(int duration, DateTime startedTime, CancellationToken token) {
