@@ -21,5 +21,8 @@ jobs:
       - name: Build and pack NuGet package
         run: .\build.ps1
 
+      - name: Run unit tests
+        run: dotnet test test\IntensityMapping.Core.Tests\IntensityMapping.Core.Tests.csproj --verbosity normal
+
       - name: Check formatting
         run: dotnet format --verify-no-changes --verbosity diagnostic
