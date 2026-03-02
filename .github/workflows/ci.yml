@@ -22,7 +22,7 @@ jobs:
         run: .\build.ps1
 
       - name: Run unit tests
-        run: dotnet test test\IntensityMapping.Core.Tests\IntensityMapping.Core.Tests.csproj --verbosity normal
+        run: dotnet test thermal-image-data-display.sln --verbosity normal
 
       - name: Check formatting
         run: dotnet format --verify-no-changes --verbosity diagnostic
