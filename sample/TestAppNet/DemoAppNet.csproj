@@ -31,9 +31,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="IntensityMapImageViewer" Version="1.0.0-alpha" />
+    <Content Include="Media\*.mp4">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="IntensityMapImageViewer" Version="$(PackageVersion)" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="$(MicrosoftExtensionsDependencyInjectionVersion)" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="$(MicrosoftExtensionsHostingVersion)" />
+    <PackageReference Include="OpenCvSharp4" Version="$(OpenCvSharpVersion)" />
+    <PackageReference Include="OpenCvSharp4.runtime.win" Version="$(OpenCvSharpVersion)" />
   </ItemGroup>
 
 </Project>

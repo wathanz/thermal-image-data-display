@@ -33,7 +33,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfIntensityView", "src\Wpf
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{1AF872D6-8A75-4A7A-8D31-62F2FF733EE5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntensityMapping.Core.Tests", "test\IntensityMapping.Core.Tests\IntensityMapping.Core.Tests.csproj", "{BDF855A3-F30C-4034-8ACA-8C9FFDC428FD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThermalImageDataDisplay.Tests", "test\ThermalImageDataDisplay.Tests\ThermalImageDataDisplay.Tests.csproj", "{BDF855A3-F30C-4034-8ACA-8C9FFDC428FD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

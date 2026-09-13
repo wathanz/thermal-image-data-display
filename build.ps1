@@ -13,12 +13,19 @@ if (-not (Test-Path $OutputDir)) {
 
 Write-Host "=== Building src projects ($Configuration) ===" -ForegroundColor Cyan
 dotnet build "$PSScriptRoot\src\IntensityMapping.Core\IntensityMapping.Core.csproj" -c $Configuration
+if ($LASTEXITCODE -ne 0) { throw "IntensityMapping.Core build failed" }
 dotnet build "$PSScriptRoot\src\WpfCanvasDrawing\WpfCanvasDrawing.csproj" -c $Configuration
+if ($LASTEXITCODE -ne 0) { throw "WpfCanvasDrawing build failed" }
 dotnet build "$PSScriptRoot\src\WpfIntensityView\WpfIntensityView.csproj" -c $Configuration
+if ($LASTEXITCODE -ne 0) { throw "WpfIntensityView build failed" }
 dotnet build "$PSScriptRoot\src\IntensityValueGeneration\IntensityValueGeneration.csproj" -c $Configuration
-if ($LASTEXITCODE -ne 0) { throw "Build failed" }
+if ($LASTEXITCODE -ne 0) { throw "IntensityValueGeneration build failed" }
 
 Write-Host "`n=== Packing NuGet package ===" -ForegroundColor Cyan
+
+$packageVersion = (dotnet msbuild "$PSScriptRoot\src\WpfIntensityView\WpfIntensityView.csproj" -getProperty:PackageVersion -nologo | Select-Object -Last 1).Trim()
+if ([string]::IsNullOrWhiteSpace($packageVersion)) { throw "Unable to determine package version" }
+Write-Host "Package version: $packageVersion"
 
 # Ensure NuGet CLI is available (required for 'nuget pack')
 $nugetCmd = Get-Command nuget -ErrorAction SilentlyContinue
@@ -33,7 +40,7 @@ if (-not $nugetCmd) {
         $env:PATH = "$dotnetToolsPath;$env:PATH"
     }
 }
-nuget pack "$PSScriptRoot\src\WpfIntensityView\IntensityView.nuspec" -OutputDirectory $OutputDir
+nuget pack "$PSScriptRoot\src\WpfIntensityView\IntensityView.nuspec" -OutputDirectory $OutputDir -Properties "packageVersion=$packageVersion;configuration=$Configuration"
 if ($LASTEXITCODE -ne 0) { throw "Pack failed" }
 
 Write-Host "`n=== Building full solution ===" -ForegroundColor Cyan
@@ -42,10 +49,39 @@ if ($LASTEXITCODE -ne 0) { throw "Build failed" }
 
 # Verify package contents
 $nupkg = Get-ChildItem $OutputDir -Filter "IntensityMapImageViewer.*.nupkg" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
-if ($nupkg) {
-    Write-Host "`n=== Package contents ===" -ForegroundColor Cyan
-    $zip = [System.IO.Compression.ZipFile]::OpenRead($nupkg.FullName)
-    $zip.Entries | Where-Object { $_.FullName -match '\.(dll|bmp|xml)$' } | Sort-Object FullName | ForEach-Object { Write-Host "  $_" }
-    $zip.Dispose()
-    Write-Host "`nPackage: $($nupkg.FullName)" -ForegroundColor Green
+if (-not $nupkg) {
+    throw "No IntensityMapImageViewer package found in $OutputDir"
 }
+
+Write-Host "`n=== Package contents ===" -ForegroundColor Cyan
+Add-Type -AssemblyName System.IO.Compression.FileSystem
+$zip = [System.IO.Compression.ZipFile]::OpenRead($nupkg.FullName)
+try {
+        $zip.Entries | Where-Object { $_.FullName -match '\.(dll|bmp|xml)$' } | Sort-Object FullName | ForEach-Object { Write-Host "  $_" }
+
+        $expectedEntries = @(
+            "lib/net48/IntensityMapping.Core.dll",
+            "lib/net48/IntensityValueGeneration.dll",
+            "lib/net48/WpfCanvasDrawing.dll",
+            "lib/net48/WpfIntensityView.dll",
+            "lib/net8.0-windows7.0/IntensityMapping.Core.dll",
+            "lib/net8.0-windows7.0/IntensityValueGeneration.dll",
+            "lib/net8.0-windows7.0/WpfCanvasDrawing.dll",
+            "lib/net8.0-windows7.0/WpfIntensityView.dll",
+            "contentFiles/any/any/ReferenceImage/Blackhot_Palette.bmp",
+            "contentFiles/any/any/ReferenceImage/Ironbow_Palette.bmp",
+            "contentFiles/any/any/ReferenceImage/Rainbow_Palette.bmp",
+            "contentFiles/any/any/ReferenceImage/RainbowFlip_Palette.bmp",
+            "contentFiles/any/any/ReferenceImage/Whitehot_Palette.bmp"
+        )
+        $actualEntries = @($zip.Entries | ForEach-Object { $_.FullName })
+        $missingEntries = @($expectedEntries | Where-Object { $_ -notin $actualEntries })
+        if ($missingEntries.Count -gt 0) {
+            throw "Package is missing expected entries: $($missingEntries -join ', ')"
+        }
+        Write-Host "Package smoke test passed: $($expectedEntries.Count) expected entries found" -ForegroundColor Green
+    }
+finally {
+    $zip.Dispose()
+}
+Write-Host "`nPackage: $($nupkg.FullName)" -ForegroundColor Green

@@ -10,6 +10,7 @@ public class FpsTracker : IFpsTracker {
     private const int averageDataLength = 10;
     private float[] records = new float[averageDataLength];
     private long frameCounter = 0;
+    private readonly Func<DateTime> nowProvider;
 
     private bool tracking = false;
     private bool fpsCalculated = false;
@@ -29,7 +30,8 @@ public class FpsTracker : IFpsTracker {
     public bool FpsCalculated {
         get { return fpsCalculated; }
     }
-    public FpsTracker() {
+    public FpsTracker(Func<DateTime> nowProvider = null) {
+        this.nowProvider = nowProvider ?? (() => DateTime.Now);
         Reset();
     }
 
@@ -52,7 +54,7 @@ public class FpsTracker : IFpsTracker {
 
     public void Start() {
         if (tracking) return;
-        lastCounterRecordedTime = DateTime.Now;
+        lastCounterRecordedTime = nowProvider();
         lastRecordedCounter = frameCounter;
         tracking = true;
     }
@@ -68,7 +70,7 @@ public class FpsTracker : IFpsTracker {
         }
 
         lock (records) {
-            var now = DateTime.Now;
+            var now = nowProvider();
             var frameDifferent = (int)(frameCounter - lastRecordedCounter);
             var totalSecondPassed = (now - lastCounterRecordedTime).TotalSeconds;
             if (frameDifferent < 1 || totalSecondPassed < 1) {
