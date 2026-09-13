@@ -17,7 +17,7 @@ Data mapping, ROI drawing, and zoom/pan are fully functional. The projects are a
 - DemoAppNet (WPF app, net8.0-windows, net48)
 
 ### Test Projects
-- IntensityMapping.Core.Tests (net8.0)
+- ThermalImageDataDisplay.Tests (net8.0-windows)
 
 ## Build and Test
 
@@ -39,6 +39,20 @@ dotnet build
 dotnet test
 ```
 
+**Sample video input:**
+
+Copy a small, redistributable MP4 to
+`sample\TestAppNet\Media\sample.mp4`. The project copies files from that
+folder beside the executable, and the demo loads that bundled video from its
+output directory. At startup, choose either the bundled video or the moving
+gradient generator. Video frames are converted to grayscale and then rendered
+through the selected thermal palette. If the video cannot be opened, the demo
+uses the moving gradient generator as a fallback.
+
+```powershell
+dotnet run --project sample\TestAppNet\DemoAppNet.csproj -f net8.0-windows
+```
+
 ## NuGet Package
 
 All libraries under `src/` are packaged into a single NuGet package: **IntensityMapImageViewer**.
@@ -56,8 +70,14 @@ This will:
 **Pack manually:**
 ```sh
 dotnet build -c Release
-nuget pack src\WpfIntensityView\IntensityView.nuspec -OutputDirectory build
+nuget pack src\WpfIntensityView\IntensityView.nuspec -OutputDirectory build -Properties packageVersion=1.0.0-alpha
 ```
+
+The package and assembly versions are defined in `Directory.Build.props`. Update
+`VersionPrefix` and `VersionSuffix` there when preparing a release.
+
+The packaging script also runs a smoke test that verifies the expected target
+framework assemblies and palette files are present in the generated package.
 
 **Using the package locally:**
 
@@ -119,5 +139,5 @@ src/
 sample/
   DemoAppNet/
 test/
-  IntensityMapping.Core.Tests/
+  ThermalImageDataDisplay.Tests/
 ```

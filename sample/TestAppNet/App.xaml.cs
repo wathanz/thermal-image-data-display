@@ -12,6 +12,7 @@ namespace DemoAppNet;
 /// </summary>
 public partial class App : Application {
     public static IHost AppHost { get; private set; }
+    internal static DataGeneratorKind SelectedDataGenerator { get; private set; }
 
     public App() {
         AppHost = Host.CreateDefaultBuilder()
@@ -24,6 +25,21 @@ public partial class App : Application {
     }
 
     protected override async void OnStartup(StartupEventArgs e) {
+        var selection = MessageBox.Show(
+            "Choose the sample data source.\n\nYes: bundled video\nNo: moving gradient\nCancel: exit",
+            "Select data generator",
+            MessageBoxButton.YesNoCancel,
+            MessageBoxImage.Question);
+
+        if (selection == MessageBoxResult.Cancel) {
+            Shutdown();
+            return;
+        }
+
+        SelectedDataGenerator = selection == MessageBoxResult.Yes
+            ? DataGeneratorKind.BundledVideo
+            : DataGeneratorKind.Gradient;
+
         await AppHost.StartAsync();
         var startupWindow = AppHost.Services.GetRequiredService<MainWindow>();
         startupWindow.Show();

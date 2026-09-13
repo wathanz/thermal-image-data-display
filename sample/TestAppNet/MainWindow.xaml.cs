@@ -6,6 +6,7 @@ using IntensityMapping.Core.DataConverter;
 using IntensityMapping.Core.Interface;
 using IntensityValueGeneration;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -39,8 +40,24 @@ public partial class MainWindow : Window {
         var imageHeight = 1080;
         valueGenerationConfig.Interval = 50;
 
-        var patternGenerator = new GradientPatternGenerator(imageWidth, imageHeight, valueGenerationConfig.DataMin, valueGenerationConfig.DataMax);
-        dataSource = new PeriodicIntensityDataSource(patternGenerator, valueGenerationConfig);
+        IIntensityValueGenerator frameGenerator;
+        if (App.SelectedDataGenerator == DataGeneratorKind.Gradient) {
+            frameGenerator = new GradientPatternGenerator(imageWidth, imageHeight, valueGenerationConfig.DataMin, valueGenerationConfig.DataMax);
+        }
+        else {
+            var videoSource = Path.Combine(AppContext.BaseDirectory, "Media", "sample.mp4");
+            try {
+                frameGenerator = new VideoIntensityDataGenerator(videoSource, imageWidth, imageHeight);
+                valueGenerationConfig.DataMin = 0;
+                valueGenerationConfig.DataMax = 255;
+            }
+            catch (Exception ex) {
+                frameGenerator = new GradientPatternGenerator(imageWidth, imageHeight, valueGenerationConfig.DataMin, valueGenerationConfig.DataMax);
+                MessageBox.Show(this, $"Video source unavailable. Using gradient fallback.\n\n{ex.Message}", "Video source unavailable");
+            }
+        }
+
+        dataSource = new PeriodicIntensityDataSource(frameGenerator, valueGenerationConfig);
         GridSideView.DataContext = dataSource;
         GrdViewInfo.DataContext = ImgViewUI.Info;
 
@@ -101,6 +118,7 @@ public partial class MainWindow : Window {
         if (dataSource != null) {
             await dataSource.StopAsync();
             dataSource.OnIntensityValuesChanged -= MapGenerator_OnIntensityValuesChanged;
+            (dataSource as IDisposable)?.Dispose();
         }
     }
 

@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.0.1">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\IntensityMapping.Core\IntensityMapping.Core.csproj" />
+    <ProjectReference Include="..\..\src\IntensityValueGeneration\IntensityValueGeneration.csproj" />
+    <ProjectReference Include="..\..\src\WpfCanvasDrawing\WpfCanvasDrawing.csproj" />
+    <ProjectReference Include="..\..\src\WpfIntensityView\WpfIntensityView.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\src\WpfIntensityView\ReferenceImage\*.bmp"
+             Link="ReferenceImage\%(Filename)%(Extension)"
+             CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

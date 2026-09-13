@@ -11,7 +11,7 @@ using SystemDrawing = System.Drawing;
 namespace WpfIntensityView.Model;
 public class ColorMapping : IColorMapping {
 
-    private string mappingReferenceDirectoryName = "ReferenceImage";
+    private readonly string mappingReferenceDirectoryName = Path.Combine(AppContext.BaseDirectory, "ReferenceImage");
     private Dictionary<string, string> mappingSource = new Dictionary<string, string>();
 
     private readonly Dictionary<string, BitmapPalette> loadedPalettes = new Dictionary<string, BitmapPalette>();
