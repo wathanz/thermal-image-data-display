@@ -21,5 +21,8 @@ jobs:
       - name: Build and pack NuGet package
         run: .\build.ps1
 
+      - name: Run unit tests
+        run: dotnet test thermal-image-data-display.sln --verbosity normal
+
       - name: Check formatting
         run: dotnet format --verify-no-changes --verbosity diagnostic

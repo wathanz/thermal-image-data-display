@@ -35,6 +35,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{1AF872D6-8
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThermalImageDataDisplay.Tests", "test\ThermalImageDataDisplay.Tests\ThermalImageDataDisplay.Tests.csproj", "{BDF855A3-F30C-4034-8ACA-8C9FFDC428FD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntensityValueGeneration.Tests", "test\IntensityValueGeneration.Tests\IntensityValueGeneration.Tests.csproj", "{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfCanvasDrawing.Tests", "test\WpfCanvasDrawing.Tests\WpfCanvasDrawing.Tests.csproj", "{B2C3D4E5-F6A7-8901-BCDE-F12345678901}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +69,14 @@ Global
 		{BDF855A3-F30C-4034-8ACA-8C9FFDC428FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BDF855A3-F30C-4034-8ACA-8C9FFDC428FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BDF855A3-F30C-4034-8ACA-8C9FFDC428FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2C3D4E5-F6A7-8901-BCDE-F12345678901}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2C3D4E5-F6A7-8901-BCDE-F12345678901}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2C3D4E5-F6A7-8901-BCDE-F12345678901}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2C3D4E5-F6A7-8901-BCDE-F12345678901}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -77,6 +89,8 @@ Global
 		{883204A7-D5F3-47DB-A966-3BF9BBC38776} = {525CABA4-F1C8-4D68-B5FE-EE09AC892B74}
 		{B09C740B-B0BB-4C76-BEB2-A84A0E807F22} = {525CABA4-F1C8-4D68-B5FE-EE09AC892B74}
 		{BDF855A3-F30C-4034-8ACA-8C9FFDC428FD} = {1AF872D6-8A75-4A7A-8D31-62F2FF733EE5}
+		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890} = {1AF872D6-8A75-4A7A-8D31-62F2FF733EE5}
+		{B2C3D4E5-F6A7-8901-BCDE-F12345678901} = {1AF872D6-8A75-4A7A-8D31-62F2FF733EE5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7BD63881-EBB5-4DBC-B570-D79C256ADE35}
