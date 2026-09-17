@@ -22,10 +22,10 @@ jobs:
         run: New-Item -ItemType Directory -Path build -Force | Out-Null
 
       - name: Restore
-        run: dotnet restore thermal-image-data-display.sln
+        run: dotnet restore test/ThermalImageDataDisplay.Tests/ThermalImageDataDisplay.Tests.csproj
 
       - name: Run unit tests
-        run: dotnet test thermal-image-data-display.sln -c Release --no-restore --logger "trx;LogFileName=test-results.trx" --results-directory TestResults
+        run: dotnet test test/ThermalImageDataDisplay.Tests/ThermalImageDataDisplay.Tests.csproj -c Release --no-restore --logger "trx;LogFileName=test-results.trx" --results-directory TestResults
 
       - name: Upload test results
         if: always()
