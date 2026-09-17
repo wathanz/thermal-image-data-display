@@ -18,6 +18,9 @@ jobs:
         with:
           dotnet-version: 9.0.x
 
+      - name: Ensure local NuGet feed folder exists
+        run: New-Item -ItemType Directory -Path build -Force | Out-Null
+
       - name: Restore
         run: dotnet restore thermal-image-data-display.sln
 
@@ -61,6 +64,9 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 9.0.x
+
+      - name: Ensure local NuGet feed folder exists
+        run: New-Item -ItemType Directory -Path build -Force | Out-Null
 
       - name: Restore
         run: dotnet restore thermal-image-data-display.sln
