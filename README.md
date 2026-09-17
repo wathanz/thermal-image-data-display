@@ -5,6 +5,11 @@ Data mapping, ROI drawing, and zoom/pan are fully functional. The projects are a
 * Extend test coverage
 * Improve code quality
 
+## Demo App (DemoAppNet)
+Demonstrates 2D intensity values (thermal data) mapped to RGB image display in a WPF application, using the IntensityMapImageViewer library.
+
+<video src="image/demo.mp4" controls muted playsinline poster="image/demo_poster.png"></video>
+
 ## Project List
 
 ### Libraries
@@ -118,10 +123,6 @@ WPF image view control for displaying data with selected color mapping.
 ### Intensity Value Generation (IntensityValueGeneration.csproj)
 Utility classes that provide periodic intensity data generation for testing.
 Can be used as a sample data source instead of real data providers (e.g. sensor/thermal camera).
-
-### Demo App (DemoAppNet)
-Demonstrates 2D intensity values (thermal data) mapped to RGB image display in a WPF application, using the IntensityMapImageViewer library.
-![screenshot](image/demo.gif)
 
 ## Structure
 ```sh
