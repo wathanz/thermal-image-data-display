@@ -22,7 +22,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntensityMapping.Core", "sr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "image", "image", "{36CF7577-3587-45B0-8E48-B90E3DCDF20B}"
 	ProjectSection(SolutionItems) = preProject
-		image\demo.gif = image\demo.gif
+		image\demo.mp4 = image\demo.mp4
+		image\demo_poster.png = image\demo_poster.png
 		image\Ironbow_Palette.bmp = image\Ironbow_Palette.bmp
 		image\Rainbow_Palette.bmp = image\Rainbow_Palette.bmp
 	EndProjectSection
