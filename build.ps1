@@ -1,7 +1,8 @@
 # Build and pack IntensityMapImageViewer NuGet package
 param(
     [string]$Configuration = "Release",
-    [string]$OutputDir = "$PSScriptRoot\build"
+    [string]$OutputDir = "$PSScriptRoot\build",
+    [string]$BuildNumber = "0"
 )
 
 $ErrorActionPreference = "Stop"
@@ -11,19 +12,21 @@ if (-not (Test-Path $OutputDir)) {
     New-Item -ItemType Directory -Path $OutputDir -Force | Out-Null
 }
 
+$versionProps = "-p:BuildNumber=$BuildNumber"
+
 Write-Host "=== Building src projects ($Configuration) ===" -ForegroundColor Cyan
-dotnet build "$PSScriptRoot\src\IntensityMapping.Core\IntensityMapping.Core.csproj" -c $Configuration
+dotnet build "$PSScriptRoot\src\IntensityMapping.Core\IntensityMapping.Core.csproj" -c $Configuration $versionProps
 if ($LASTEXITCODE -ne 0) { throw "IntensityMapping.Core build failed" }
-dotnet build "$PSScriptRoot\src\WpfCanvasDrawing\WpfCanvasDrawing.csproj" -c $Configuration
+dotnet build "$PSScriptRoot\src\WpfCanvasDrawing\WpfCanvasDrawing.csproj" -c $Configuration $versionProps
 if ($LASTEXITCODE -ne 0) { throw "WpfCanvasDrawing build failed" }
-dotnet build "$PSScriptRoot\src\WpfIntensityView\WpfIntensityView.csproj" -c $Configuration
+dotnet build "$PSScriptRoot\src\WpfIntensityView\WpfIntensityView.csproj" -c $Configuration $versionProps
 if ($LASTEXITCODE -ne 0) { throw "WpfIntensityView build failed" }
-dotnet build "$PSScriptRoot\src\IntensityValueGeneration\IntensityValueGeneration.csproj" -c $Configuration
+dotnet build "$PSScriptRoot\src\IntensityValueGeneration\IntensityValueGeneration.csproj" -c $Configuration $versionProps
 if ($LASTEXITCODE -ne 0) { throw "IntensityValueGeneration build failed" }
 
 Write-Host "`n=== Packing NuGet package ===" -ForegroundColor Cyan
 
-$packageVersion = (dotnet msbuild "$PSScriptRoot\src\WpfIntensityView\WpfIntensityView.csproj" -getProperty:PackageVersion -nologo | Select-Object -Last 1).Trim()
+$packageVersion = (dotnet msbuild "$PSScriptRoot\src\WpfIntensityView\WpfIntensityView.csproj" -getProperty:PackageVersion $versionProps -nologo | Select-Object -Last 1).Trim()
 if ([string]::IsNullOrWhiteSpace($packageVersion)) { throw "Unable to determine package version" }
 Write-Host "Package version: $packageVersion"
 
@@ -44,7 +47,7 @@ nuget pack "$PSScriptRoot\src\WpfIntensityView\IntensityView.nuspec" -OutputDire
 if ($LASTEXITCODE -ne 0) { throw "Pack failed" }
 
 Write-Host "`n=== Building full solution ===" -ForegroundColor Cyan
-dotnet build "$PSScriptRoot\thermal-image-data-display.sln" -c $Configuration
+dotnet build "$PSScriptRoot\thermal-image-data-display.sln" -c $Configuration $versionProps
 if ($LASTEXITCODE -ne 0) { throw "Build failed" }
 
 # Verify package contents

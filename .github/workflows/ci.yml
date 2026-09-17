@@ -7,6 +7,53 @@ on:
     branches: [main, master]
 
 jobs:
+  test:
+    name: Unit Tests
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Ensure local NuGet feed folder exists
+        run: New-Item -ItemType Directory -Path build -Force | Out-Null
+
+      - name: Restore
+        run: dotnet restore test/ThermalImageDataDisplay.Tests/ThermalImageDataDisplay.Tests.csproj
+
+      - name: Run unit tests
+        run: dotnet test test/ThermalImageDataDisplay.Tests/ThermalImageDataDisplay.Tests.csproj -c Release --no-restore --logger "trx;LogFileName=test-results.trx" --results-directory TestResults
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: "**/TestResults/*.trx"
+
+  build-and-pack:
+    name: Build and Pack
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Build and pack NuGet package
+        run: .\build.ps1 -BuildNumber $env:GITHUB_RUN_NUMBER
+
+      - name: Upload NuGet package
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuget-package
+          path: build/*.nupkg
+
   format-check:
     name: Format Check
     runs-on: windows-latest
@@ -18,8 +65,11 @@ jobs:
         with:
           dotnet-version: 9.0.x
 
-      - name: Build and pack NuGet package
-        run: .\build.ps1
+      - name: Ensure local NuGet feed folder exists
+        run: New-Item -ItemType Directory -Path build -Force | Out-Null
+
+      - name: Restore
+        run: dotnet restore thermal-image-data-display.sln
 
       - name: Check formatting
-        run: dotnet format --verify-no-changes --verbosity diagnostic
+        run: dotnet format thermal-image-data-display.sln --verify-no-changes --verbosity diagnostic
