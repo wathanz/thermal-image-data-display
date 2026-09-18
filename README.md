@@ -10,7 +10,7 @@ Data mapping, ROI drawing, and zoom/pan are fully functional. The projects are a
 ## Demo App (DemoAppNet)
 Demonstrates 2D intensity values (thermal data) mapped to RGB image display in a WPF application, using the IntensityMapImageViewer library.
 
-<video src="image/demo.mp4" controls muted playsinline poster="image/demo_poster.png"></video>
+https://github.com/user-attachments/assets/e3cc514c-d3b2-47e6-841b-dc815fd1bf33
 
 ## Project List
 
