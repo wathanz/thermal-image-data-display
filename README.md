@@ -1,5 +1,6 @@
 ## Introduction
 [![CI](https://github.com/wathanz/thermal-image-data-display/actions/workflows/ci.yml/badge.svg)](https://github.com/wathanz/thermal-image-data-display/actions/workflows/ci.yml)
+[![NuGet](https://img.shields.io/nuget/v/IntensityMapImageViewer.svg)](https://www.nuget.org/packages/IntensityMapImageViewer/)
 
 This project is a data visualization application for 2D array values with pre-defined color mappings. It features a WPF bitmap image user control with zoom/pan and ROI (Region of Interest) overlay support.
 
