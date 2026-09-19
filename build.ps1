@@ -2,7 +2,8 @@
 param(
     [string]$Configuration = "Release",
     [string]$OutputDir = "$PSScriptRoot\build",
-    [string]$BuildNumber = "0"
+    [string]$BuildNumber = "0",
+    [string]$ReleaseVersion = ""
 )
 
 $ErrorActionPreference = "Stop"
@@ -13,6 +14,14 @@ if (-not (Test-Path $OutputDir)) {
 }
 
 $versionProps = "-p:BuildNumber=$BuildNumber"
+if ($ReleaseVersion) {
+    if ($ReleaseVersion -notmatch '^(?<assembly>\d+\.\d+\.\d+)(?:\.\d+)?(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$') {
+        throw "ReleaseVersion must be a valid semantic version, such as 1.2.3 or 1.2.3-rc.1"
+    }
+
+    $assemblyVersion = "$($Matches['assembly']).0"
+    $versionProps = "-p:BuildNumber=$BuildNumber;Version=$ReleaseVersion;PackageVersion=$ReleaseVersion;InformationalVersion=$ReleaseVersion;AssemblyVersion=$assemblyVersion;FileVersion=$assemblyVersion"
+}
 
 Write-Host "=== Building src projects ($Configuration) ===" -ForegroundColor Cyan
 dotnet build "$PSScriptRoot\src\IntensityMapping.Core\IntensityMapping.Core.csproj" -c $Configuration $versionProps

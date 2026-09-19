@@ -1,0 +1,53 @@
+name: Release
+
+# Publishes to nuget.org only when a version tag (e.g. v1.2.3) is pushed.
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  publish:
+    name: Build, Pack, and Publish to NuGet
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Ensure local NuGet feed folder exists
+        run: New-Item -ItemType Directory -Path build -Force | Out-Null
+
+      - name: Determine package version from tag
+        id: version
+        env:
+          TAG_NAME: ${{ github.ref_name }}
+        run: |
+          if ($env:TAG_NAME -notmatch '^v(?<version>\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?)$') {
+            throw "Release tags must use a semantic version, such as v1.2.3 or v1.2.3-rc.1"
+          }
+          $version = $Matches['version']
+          Write-Host "Package version: $version"
+          "version=$version" >> $env:GITHUB_OUTPUT
+
+      - name: Build and pack NuGet package
+        env:
+          RELEASE_VERSION: ${{ steps.version.outputs.version }}
+        run: .\build.ps1 -ReleaseVersion $env:RELEASE_VERSION
+
+      - name: Push to nuget.org
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: |
+          $pkg = Get-ChildItem build -Filter "IntensityMapImageViewer.*.nupkg" | Select-Object -First 1
+          if (-not $pkg) { throw "No package found to push" }
+          dotnet nuget push $pkg.FullName --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+
+      - name: Upload package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuget-package
+          path: build/*.nupkg
