@@ -6,6 +6,17 @@ on:
   pull_request:
     branches: [main, master]
 
+permissions:
+  contents: read
+
+env:
+  # Analyzer mode for the Code Analysis job: QualityBaseline reports findings only,
+  # QualityGate fails on them. Switch once the baseline findings are resolved/approved.
+  ANALYZER_MODE: QualityBaseline
+  # Core line coverage threshold (percent). Empty = report only; set after the measured
+  # baseline is approved (target 80).
+  CORE_COVERAGE_THRESHOLD: ""
+
 jobs:
   test:
     name: Unit Tests
@@ -16,16 +27,22 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 9.0.x
+          global-json-file: global.json
+          dotnet-version: 8.0.x
 
       - name: Ensure local NuGet feed folder exists
         run: New-Item -ItemType Directory -Path build -Force | Out-Null
 
       - name: Restore
-        run: dotnet restore test/ThermalImageDataDisplay.Tests/ThermalImageDataDisplay.Tests.csproj
+        run: |
+          dotnet restore test/ThermalImageDataDisplay.Tests/ThermalImageDataDisplay.Tests.csproj
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       - name: Run unit tests
         run: dotnet test test/ThermalImageDataDisplay.Tests/ThermalImageDataDisplay.Tests.csproj -c Release --no-restore --logger "trx;LogFileName=test-results.trx" --results-directory TestResults
+
+      - name: Validate test report
+        run: ./.github/scripts/Test-TrxReport.ps1 -Path TestResults
 
       - name: Upload test results
         if: always()
@@ -33,6 +50,110 @@ jobs:
         with:
           name: test-results
           path: "**/TestResults/*.trx"
+          retention-days: 14
+
+  core-coverage:
+    name: Core Coverage
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+          dotnet-version: 8.0.x
+
+      - name: Ensure local NuGet feed folder exists
+        run: New-Item -ItemType Directory -Path build -Force | Out-Null
+
+      - name: Restore
+        run: |
+          dotnet restore test/IntensityMapping.Core.Tests/IntensityMapping.Core.Tests.csproj
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Run core tests with coverage
+        run: |
+          $args = @(
+            "test", "test/IntensityMapping.Core.Tests/IntensityMapping.Core.Tests.csproj",
+            "-c", "Release", "--no-restore",
+            "--logger", "trx;LogFileName=core-test-results.trx",
+            "--results-directory", "TestResults/core",
+            "-p:CollectCoverage=true",
+            "-p:CoverletOutputFormat=cobertura",
+            "-p:CoverletOutput=$env:GITHUB_WORKSPACE/TestResults/core/coverage/",
+            "-p:Include=[IntensityMapping.Core]*",
+            "-p:ExcludeByAttribute=GeneratedCodeAttribute%2cCompilerGeneratedAttribute"
+          )
+          if ($env:CORE_COVERAGE_THRESHOLD) {
+            $args += @("-p:Threshold=$env:CORE_COVERAGE_THRESHOLD", "-p:ThresholdType=line")
+          }
+          dotnet @args
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Validate test and coverage reports
+        run: |
+          ./.github/scripts/Test-TrxReport.ps1 -Path TestResults/core
+          ./.github/scripts/Test-CoverageReport.ps1 -Path TestResults/core/coverage/coverage.cobertura.xml -ExpectedPackage IntensityMapping.Core
+
+      - name: Upload coverage results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: core-coverage
+          path: TestResults/core
+          if-no-files-found: warn
+          retention-days: 14
+
+  code-analysis:
+    name: Code Analysis
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+          dotnet-version: 8.0.x
+
+      - name: Ensure local NuGet feed folder exists
+        run: New-Item -ItemType Directory -Path build -Force | Out-Null
+
+      - name: Restore
+        run: |
+          dotnet restore thermal-image-data-display.sln
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet restore test/IntensityMapping.Core.Tests/IntensityMapping.Core.Tests.csproj
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Analyze
+        run: |
+          dotnet build thermal-image-data-display.sln -c Release --no-restore "-p:$env:ANALYZER_MODE=true"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet build test/IntensityMapping.Core.Tests/IntensityMapping.Core.Tests.csproj -c Release --no-restore "-p:$env:ANALYZER_MODE=true"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+  dependency-audit:
+    name: Dependency Audit
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Ensure local NuGet feed folder exists
+        run: New-Item -ItemType Directory -Path build -Force | Out-Null
+
+      - name: Audit restore
+        run: |
+          dotnet restore thermal-image-data-display.sln --force --no-cache -p:DependencyAudit=true
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet restore test/IntensityMapping.Core.Tests/IntensityMapping.Core.Tests.csproj --force --no-cache -p:DependencyAudit=true
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
   build-and-pack:
     name: Build and Pack
@@ -43,7 +164,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 9.0.x
+          global-json-file: global.json
 
       - name: Build and pack NuGet package
         run: .\build.ps1 -BuildNumber $env:GITHUB_RUN_NUMBER
@@ -53,6 +174,7 @@ jobs:
         with:
           name: nuget-package
           path: build/*.nupkg
+          retention-days: 14
 
   format-check:
     name: Format Check
@@ -63,13 +185,35 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 9.0.x
+          global-json-file: global.json
 
       - name: Ensure local NuGet feed folder exists
         run: New-Item -ItemType Directory -Path build -Force | Out-Null
 
       - name: Restore
-        run: dotnet restore thermal-image-data-display.sln
+        run: |
+          dotnet restore thermal-image-data-display.sln
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet restore test/IntensityMapping.Core.Tests/IntensityMapping.Core.Tests.csproj
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       - name: Check formatting
-        run: dotnet format thermal-image-data-display.sln --verify-no-changes --verbosity diagnostic
+        run: |
+          dotnet format thermal-image-data-display.sln --verify-no-changes --verbosity diagnostic
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet format test/IntensityMapping.Core.Tests/IntensityMapping.Core.Tests.csproj --verify-no-changes --verbosity diagnostic
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+  quality-gate:
+    name: Quality Gate
+    if: always()
+    needs: [test, core-coverage, code-analysis, dependency-audit, format-check, build-and-pack]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require all checks to succeed
+        env:
+          NEEDS: ${{ toJSON(needs) }}
+        shell: bash
+        run: |
+          echo "$NEEDS" | jq -r 'to_entries[] | "\(.key): \(.value.result)"'
+          echo "$NEEDS" | jq -e 'all(.[]; .result == "success")' > /dev/null

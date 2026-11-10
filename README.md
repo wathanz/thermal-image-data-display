@@ -47,6 +47,29 @@ dotnet build
 dotnet test
 ```
 
+### CI quality gates
+
+Pull requests and pushes to `main`/`master` run these checks (Windows, .NET SDK from `global.json` plus the .NET 8 runtime). The final **Quality Gate** job passes only if all of them succeed:
+
+| Job | What it checks |
+|-----|----------------|
+| Unit Tests | WPF test project; TRX must show executed tests and no failures |
+| Core Coverage | `IntensityMapping.Core.Tests` with Coverlet (Cobertura + TRX artifacts, summary in the run). **Report-only** for now; set `CORE_COVERAGE_THRESHOLD` in `ci.yml` (target 80) once the measured baseline is approved |
+| Code Analysis | .NET analyzers at `9.0-recommended`. Currently `ANALYZER_MODE: QualityBaseline` (report-only); switch to `QualityGate` after baseline findings are fixed |
+| Dependency Audit | NuGet audit (direct + transitive). High/critical (NU1903/NU1904) and audit/source failures fail; lower severities warn |
+| Format Check | `dotnet format --verify-no-changes` for the solution and core test project |
+| Build and Pack | `build.ps1` build, pack and package checks |
+
+Reproduce locally (PowerShell, from the repository root):
+```powershell
+New-Item -ItemType Directory -Path build -Force | Out-Null
+dotnet build thermal-image-data-display.sln -c Release -p:QualityBaseline=true   # or -p:QualityGate=true
+dotnet restore thermal-image-data-display.sln --force --no-cache -p:DependencyAudit=true
+dotnet test test/IntensityMapping.Core.Tests -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=cobertura "-p:Include=[IntensityMapping.Core]*"
+```
+
+Notes: coverage covers `IntensityMapping.Core` only and does not establish application correctness; NuGet audit is not comprehensive security analysis. Tag-triggered publishing (`release.yml`) is deliberately not gated by these checks. Marking **Quality Gate** as a required check needs a branch protection rule or ruleset in the repository settings.
+
 **Sample video input:**
 
 Copy a small, redistributable MP4 to
